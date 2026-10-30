@@ -1,20 +1,24 @@
 #!/usr/bin/env python3
-"""精度自测：对已起好的 vLLM 服务跑固定子集，产出 verify_result.json。
+"""精度自测：对已起好的 vLLM 服务跑公开数据集，产出绝对精度 json。
 
-背景：官方 `baselines/<模型>.json`（写死子集题数、max_tokens、思考开关与官方 GPU 基线分）
-随分题材料下发，本仓库未持有。为不让第 6 节空白，本脚本用**公开数据集 + 写死的评测配置**
-给出绝对精度，供验收方与官方基线比对；一旦拿到官方 baselines，改 `--data` / `--limit` /
-`--max-tokens` 三个参数即可对齐口径，判分逻辑不变。
+**这不是 verify.py**。verify.py 是官方判分入口，必须读 `baselines/<模型>.json`（写死子集题数、
+max_tokens、思考开关与官方 GPU 基线分）才能算「较基线劣化是否 ≤2%」；该文件随分题材料下发，
+本仓库未持有，verify.py 在缺文件时直接退出（只保留 --selfcheck 验证判分逻辑）。
+本脚本是补位的自测工具：不比对基线，只给绝对分，且把配置写死在下面，便于复现与横向比对。
 
 配置（写死，勿随意改，改动需在报告第 6 节同步声明）：
-  GSM8K：0-shot CoT（`Let's think step by step`），greedy，max_tokens 512，答案取输出中最后一个整数
-  MMLU ：0-shot，greedy，max_tokens 32，答案取输出中第一个 A/B/C/D
+  GSM8K：5-shot（train 前 5 条作 exemplar，含完整 CoT），greedy，max_tokens 512，
+         答案优先取输出里的 `####`，其次 "answer is N"，兜底取最后一个整数
+  MMLU ：0-shot，greedy，max_tokens 32，答案取输出中第一个 A/B/C/D，每科 5 题
   两者均关闭思考模式（`chat_template_kwargs.enable_thinking=false`），与官方「思考开关写死」的口径一致。
 
+注意口径敏感：同一模型 GSM8K 若改成 0-shot 且不给 CoT 提示，实测只有 17.06%；
+5-shot 后为 87.26%（本次实跑）。比对官方基线前必须先确认 shot 数是否一致。
+
 用法：
-  python3 precision.py --dataset gsm8k --data data/gsm8k_test.jsonl
+  python3 precision.py --dataset gsm8k --data data/gsm8k_test.jsonl --train data/gsm8k_train.jsonl --shots 5
   python3 precision.py --dataset mmlu  --data data/mmlu_test.parquet --per-subject 5
-  python3 precision.py --dataset gsm8k --data data/gsm8k_test.jsonl --limit 200 --conc 16
+  python3 precision.py --dataset gsm8k --data data/gsm8k_test.jsonl --train data/gsm8k_train.jsonl --shots 5 --limit 200 --conc 16
 """
 import argparse, json, os, re, sys, time
 import urllib.request

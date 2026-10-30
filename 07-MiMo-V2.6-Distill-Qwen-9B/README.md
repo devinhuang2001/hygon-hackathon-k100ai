@@ -93,7 +93,10 @@ data: [DONE]
 ### 6.2 自测绝对精度（公开数据集，配置写死）
 
 为不让本节空白，用公开数据集与写死配置在本卡上实跑，给出**绝对分**供验收方比对。
-脚本 [`precision.py`](precision.py)，判分口径与 `verify.py` 一致（greedy、关思考、固定 max_tokens）：
+
+**这两行数字不是 `verify.py` 跑出来的**——`verify.py` 缺 `baselines/` 会直接退出，只保留了判分逻辑
+与 `--selfcheck`。实际执行的是自写脚本 [`precision.py`](precision.py)，只算绝对分、不比对基线；
+解码口径沿用官方要求的 greedy / 关闭思考 / 固定 max_tokens：
 
 | 数据集 | 样本数 | 配置 | 正确 | 得分 | 二项标准误 | 耗时 |
 | --- | --- | --- | --- | --- | --- | --- |
