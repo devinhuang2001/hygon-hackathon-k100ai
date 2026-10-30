@@ -1,0 +1,228 @@
+[auk] total=120 todo=120
+2026-10-30 19:22:06,657 - INFO - Loading Qwen text encoder from /root/hygon/models/qwen-omni ...
+Loading weights:   0%|          | 0/1442 [00:00<?, ?it/s]Loading weights:  28%|██▊       | 404/1442 [00:00<00:00, 4036.15it/s]Loading weights:  56%|█████▌    | 808/1442 [00:00<00:00, 3704.52it/s]Loading weights:  82%|████████▏ | 1181/1442 [00:00<00:00, 3616.57it/s]Loading weights: 100%|██████████| 1442/1442 [00:00<00:00, 3670.58it/s]
+[1mQwen2_5OmniThinkerForConditionalGeneration LOAD REPORT[0m from: /root/hygon/models/qwen-omni
+Key                                                                                                      | Status     |  | 
+---------------------------------------------------------------------------------------------------------+------------+--+-
+talker.model.layers.{0...23}.self_attn.q_proj.bias                                                       | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.transformer_blocks.{0...21}.attn.to_q.bias                                  | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.resblocks.{0...17}.activations.{0, 1, 2, 3, 4, 5}.act.alpha             | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.resblocks.{0...17}.convs1.{0, 1, 2}.bias                                | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.blocks.{1, 2, 3}.tdnn1.conv.weight                  | UNEXPECTED |  | 
+talker.model.layers.{0...23}.self_attn.k_proj.weight                                                     | UNEXPECTED |  | 
+talker.model.layers.{0...23}.input_layernorm.weight                                                      | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.resblocks.{0...17}.convs2.{0, 1, 2}.weight                              | UNEXPECTED |  | 
+talker.model.layers.{0...23}.mlp.up_proj.weight                                                          | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.transformer_blocks.{0...21}.ff.ff.{0, 3}.weight                             | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.transformer_blocks.{0...21}.attn_norm.linear.bias                           | UNEXPECTED |  | 
+talker.model.layers.{0...23}.mlp.gate_proj.weight                                                        | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.resblocks.{0...17}.activations.{0, 1, 2, 3, 4, 5}.act.beta              | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.blocks.0.conv.weight                                | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.transformer_blocks.{0...21}.attn.to_v.bias                                  | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.transformer_blocks.{0...21}.attn.to_out.0.bias                              | UNEXPECTED |  | 
+talker.model.layers.{0...23}.mlp.down_proj.weight                                                        | UNEXPECTED |  | 
+talker.model.layers.{0...23}.self_attn.k_proj.bias                                                       | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.transformer_blocks.{0...21}.ff.ff.{0, 3}.bias                               | UNEXPECTED |  | 
+talker.model.layers.{0...23}.self_attn.v_proj.weight                                                     | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.transformer_blocks.{0...21}.attn.to_k.weight                                | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.resblocks.{0...17}.convs1.{0, 1, 2}.weight                              | UNEXPECTED |  | 
+talker.model.layers.{0...23}.self_attn.q_proj.weight                                                     | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.ups.{0, 1, 2, 3, 4, 5}.0.bias                                           | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.transformer_blocks.{0...21}.attn.to_v.weight                                | UNEXPECTED |  | 
+talker.model.layers.{0...23}.self_attn.v_proj.bias                                                       | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.blocks.{1, 2, 3}.se_block.conv1.weight              | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.resblocks.{0...17}.convs2.{0, 1, 2}.bias                                | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.transformer_blocks.{0...21}.attn_norm.linear.weight                         | UNEXPECTED |  | 
+talker.model.layers.{0...23}.self_attn.o_proj.weight                                                     | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.transformer_blocks.{0...21}.attn.to_out.0.weight                            | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.blocks.{1, 2, 3}.se_block.conv2.bias                | UNEXPECTED |  | 
+talker.model.layers.{0...23}.post_attention_layernorm.weight                                             | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.transformer_blocks.{0...21}.attn.to_k.bias                                  | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.blocks.{1, 2, 3}.se_block.conv1.bias                | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.transformer_blocks.{0...21}.attn.to_q.weight                                | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.blocks.{1, 2, 3}.res2net_block.blocks.0.conv.weight | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.asp.conv.weight                                     | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.mfa.conv.bias                                       | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.blocks.{1, 2, 3}.tdnn2.conv.weight                  | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.asp.tdnn.conv.bias                                  | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.blocks.{1, 2, 3}.res2net_block.blocks.0.conv.bias   | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.time_embed.time_mlp.{0, 2}.bias                                             | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.ups.{0, 1, 2, 3, 4, 5}.0.weight                                         | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.proj.bias                                                       | UNEXPECTED |  | 
+talker.model.embed_tokens.weight                                                                         | UNEXPECTED |  | 
+talker.thinker_to_talker_proj.weight                                                                     | UNEXPECTED |  | 
+talker.model.norm.weight                                                                                 | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.activation_post.act.alpha                                               | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.proj_out.weight                                                             | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.blocks.0.conv.bias                                  | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.conv_pre.bias                                                           | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.asp.conv.bias                                       | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.blocks.{1, 2, 3}.tdnn2.conv.bias                    | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.text_embed.codec_embed.weight                                               | UNEXPECTED |  | 
+talker.codec_head.weight                                                                                 | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.norm_out.linear.weight                                                      | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.conv_pre.weight                                                         | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.blocks.{1, 2, 3}.se_block.conv2.weight              | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.mfa.conv.weight                                     | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.activation_post.act.beta                                                | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.time_embed.time_mlp.{0, 2}.weight                                           | UNEXPECTED |  | 
+talker.thinker_to_talker_proj.bias                                                                       | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.blocks.{1, 2, 3}.tdnn1.conv.bias                    | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.rotary_embed.inv_freq                                                       | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.proj.weight                                                     | UNEXPECTED |  | 
+token2wav.code2wav_bigvgan_model.conv_post.weight                                                        | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.norm_out.linear.bias                                                        | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.fc.weight                                           | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.asp.tdnn.conv.weight                                | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.proj_out.bias                                                               | UNEXPECTED |  | 
+token2wav.code2wav_dit_model.input_embed.spk_encoder.fc.bias                                             | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+2026-10-30 19:22:09,426 - INFO - Loading VAE from /root/hygon/models/auk/vae.safetensors ...
+2026-10-30 19:22:09,434 - INFO - BigVGANFlowVAE Config:
+2026-10-30 19:22:09,434 - INFO -   upsample_rates: [5, 4, 3, 2, 2, 2]
+2026-10-30 19:22:09,509 - INFO -   upsample_kernel_sizes: [10, 8, 6, 4, 4, 4]
+2026-10-30 19:22:09,509 - INFO -   upsample_initial_channel: 1536
+2026-10-30 19:22:09,509 - INFO -   resblock_kernel_sizes: [3, 7, 11]
+2026-10-30 19:22:09,509 - INFO -   resblock_dilation_sizes: [[1, 3, 5], [1, 3, 5], [1, 3, 5]]
+2026-10-30 19:22:09,509 - INFO -   downsample_rates: [2, 2, 2, 3, 4, 5]
+2026-10-30 19:22:09,509 - INFO -   downsample_channels: [12, 24, 48, 96, 192, 384, 768]
+2026-10-30 19:22:09,509 - INFO -   snake_logscale: True
+2026-10-30 19:22:09,509 - INFO -   latent_dim: 64
+2026-10-30 19:22:09,509 - INFO -   use_vae: True
+2026-10-30 19:22:09,509 - INFO -   causal: True
+2026-10-30 19:22:09,509 - INFO -   flow_hidden_channels: 256
+2026-10-30 19:22:09,509 - INFO -   act_causal: True
+/root/hygon/rootfs/usr/local/lib/python3.10/dist-packages/torch/nn/utils/weight_norm.py:144: FutureWarning: `torch.nn.utils.weight_norm` is deprecated in favor of `torch.nn.utils.parametrizations.weight_norm`.
+  WeightNorm.apply(module, name, dim)
+2026-10-30 19:22:13,491 - INFO - Building CFMEdit model ...
+2026-10-30 19:22:26,028 - INFO - Loading model checkpoint from /root/hygon/models/auk/auk_base.safetensors ...
+2026-10-30 19:22:28,646 - INFO - Loaded EMA weights | missing=924 (text_encoder.*=924, other=0) | unexpected=0
+[auk] engine loaded
+/root/hygon/rootfs/usr/local/lib/python3.10/dist-packages/transformers/integrations/sdpa_attention.py:92: UserWarning: 1Torch was not compiled with memory efficient attention. (Triggered internally at /pytorch/aten/src/ATen/native/transformers/hip/sdp_utils.cpp:835.)
+  attn_output = torch.nn.functional.scaled_dot_product_attention(
+/root/hygon/rootfs/usr/local/lib/python3.10/dist-packages/transformers/integrations/sdpa_attention.py:92: UserWarning: sdpa adopt the new interface of flash-attn (Triggered internally at /pytorch/aten/src/ATen/native/transformers/hip/cutlassfa_adapter.h:148.)
+  attn_output = torch.nn.functional.scaled_dot_product_attention(
+/root/hygon/rootfs/usr/local/lib/python3.10/dist-packages/torch/nn/functional.py:3129: UserWarning: Mismatch dtype between input and weight: input dtype = c10::BFloat16, weight dtype = float, Cannot dispatch to fused implementation. (Triggered internally at /pytorch/aten/src/ATen/native/layer_norm.cpp:344.)
+  return torch.rms_norm(input, normalized_shape, weight, eps)
+[auk] OK auk_zh_00000309-00000009_s42 dur=6.08s (19s)
+[auk] OK auk_zh_00000309-00000009_s2026 dur=6.08s (9s)
+[auk] OK auk_zh_00000309-00000009_s1234 dur=6.08s (9s)
+[auk] OK auk_zh_00000309-00000039_s42 dur=7.56s (10s)
+[auk] OK auk_zh_00000309-00000039_s2026 dur=7.56s (10s)
+[auk] OK auk_zh_00000309-00000039_s1234 dur=7.56s (10s)
+[auk] OK auk_zh_00004501-00000029_s42 dur=7.82s (12s)
+[auk] OK auk_zh_00004501-00000029_s2026 dur=7.82s (12s)
+[auk] OK auk_zh_00004501-00000029_s1234 dur=7.82s (12s)
+[auk] OK auk_zh_00004501-00000111_s42 dur=7.56s (12s)
+[auk] OK auk_zh_00004501-00000111_s2026 dur=7.56s (11s)
+[auk] OK auk_zh_00004501-00000111_s1234 dur=7.56s (12s)
+[auk] OK auk_zh_00004504-00000057_s42 dur=8.58s (10s)
+[auk] OK auk_zh_00004504-00000057_s2026 dur=8.58s (10s)
+[auk] OK auk_zh_00004504-00000057_s1234 dur=8.58s (10s)
+[auk] OK auk_zh_00004504-00000108_s42 dur=7.20s (9s)
+[auk] OK auk_zh_00004504-00000108_s2026 dur=7.20s (9s)
+[auk] OK auk_zh_00004504-00000108_s1234 dur=7.20s (9s)
+[auk] OK auk_zh_00004505-00000041_s42 dur=5.36s (8s)
+[auk] OK auk_zh_00004505-00000041_s2026 dur=5.36s (8s)
+[auk] OK auk_zh_00004505-00000041_s1234 dur=5.36s (8s)
+[auk] OK auk_zh_00004505-00000075_s42 dur=5.62s (8s)
+[auk] OK auk_zh_00004505-00000075_s2026 dur=5.62s (8s)
+[auk] OK auk_zh_00004505-00000075_s1234 dur=5.62s (8s)
+[auk] OK auk_zh_00004506-00000069_s42 dur=6.62s (10s)
+[auk] OK auk_zh_00004506-00000069_s2026 dur=6.62s (10s)
+[auk] OK auk_zh_00004506-00000069_s1234 dur=6.62s (10s)
+[auk] OK auk_zh_00004506-00000103_s42 dur=9.00s (12s)
+[auk] OK auk_zh_00004506-00000103_s2026 dur=9.00s (12s)
+[auk] OK auk_zh_00004506-00000103_s1234 dur=9.00s (12s)
+[auk] OK auk_zh_00004507-00000024_s42 dur=8.70s (12s)
+[auk] OK auk_zh_00004507-00000024_s2026 dur=8.70s (11s)
+[auk] OK auk_zh_00004507-00000024_s1234 dur=8.70s (11s)
+[auk] OK auk_zh_00004507-00000092_s42 dur=9.34s (12s)
+[auk] OK auk_zh_00004507-00000092_s2026 dur=9.34s (12s)
+[auk] OK auk_zh_00004507-00000092_s1234 dur=9.34s (12s)
+[auk] OK auk_zh_00004508-00000022_s42 dur=7.14s (9s)
+[auk] OK auk_zh_00004508-00000022_s2026 dur=7.14s (9s)
+[auk] OK auk_zh_00004508-00000022_s1234 dur=7.14s (9s)
+[auk] OK auk_zh_00004508-00000064_s42 dur=5.68s (8s)
+[auk] OK auk_zh_00004508-00000064_s2026 dur=5.68s (8s)
+[auk] OK auk_zh_00004508-00000064_s1234 dur=5.68s (8s)
+[auk] OK auk_zh_00004509-00000047_s42 dur=9.16s (12s)
+[auk] OK auk_zh_00004509-00000047_s2026 dur=9.16s (11s)
+[auk] OK auk_zh_00004509-00000047_s1234 dur=9.16s (11s)
+[auk] OK auk_zh_00004509-00000090_s42 dur=8.90s (10s)
+[auk] OK auk_zh_00004509-00000090_s2026 dur=8.90s (10s)
+[auk] OK auk_zh_00004509-00000090_s1234 dur=8.90s (10s)
+[auk] OK auk_zh_00004510-00000018_s42 dur=6.02s (9s)
+[auk] OK auk_zh_00004510-00000018_s2026 dur=6.02s (9s)
+[auk] OK auk_zh_00004510-00000018_s1234 dur=6.02s (9s)
+[auk] OK auk_zh_00004510-00000090_s42 dur=7.46s (10s)
+[auk] OK auk_zh_00004510-00000090_s2026 dur=7.46s (10s)
+[auk] OK auk_zh_00004510-00000090_s1234 dur=7.46s (10s)
+[auk] OK auk_zh_00004511-00000014_s42 dur=5.74s (9s)
+[auk] OK auk_zh_00004511-00000014_s2026 dur=5.74s (9s)
+[auk] OK auk_zh_00004511-00000014_s1234 dur=5.74s (9s)
+[auk] OK auk_zh_00004511-00000032_s42 dur=6.52s (9s)
+[auk] OK auk_zh_00004511-00000032_s2026 dur=6.52s (9s)
+[auk] OK auk_zh_00004511-00000032_s1234 dur=6.52s (9s)
+[auk] OK auk_en_common_voice_en_10119832-common_voice_en_10119840_s42 dur=3.40s (7s)
+[auk] OK auk_en_common_voice_en_10119832-common_voice_en_10119840_s2026 dur=3.40s (7s)
+[auk] OK auk_en_common_voice_en_10119832-common_voice_en_10119840_s1234 dur=3.40s (7s)
+[auk] OK auk_en_common_voice_en_10119832-common_voice_en_10119847_s42 dur=3.10s (7s)
+[auk] OK auk_en_common_voice_en_10119832-common_voice_en_10119847_s2026 dur=3.10s (7s)
+[auk] OK auk_en_common_voice_en_10119832-common_voice_en_10119847_s1234 dur=3.10s (7s)
+[auk] OK auk_en_common_voice_en_103675-common_voice_en_103676_s42 dur=5.16s (10s)
+[auk] OK auk_en_common_voice_en_103675-common_voice_en_103676_s2026 dur=5.16s (10s)
+[auk] OK auk_en_common_voice_en_103675-common_voice_en_103676_s1234 dur=5.16s (10s)
+[auk] OK auk_en_common_voice_en_103675-common_voice_en_103677_s42 dur=3.08s (9s)
+[auk] OK auk_en_common_voice_en_103675-common_voice_en_103677_s2026 dur=3.08s (10s)
+[auk] OK auk_en_common_voice_en_103675-common_voice_en_103677_s1234 dur=3.08s (9s)
+[auk] OK auk_en_common_voice_en_10933823-common_voice_en_10933822_s42 dur=5.46s (11s)
+[auk] OK auk_en_common_voice_en_10933823-common_voice_en_10933822_s2026 dur=5.46s (11s)
+[auk] OK auk_en_common_voice_en_10933823-common_voice_en_10933822_s1234 dur=5.46s (11s)
+[auk] OK auk_en_common_voice_en_10933823-common_voice_en_10933825_s42 dur=3.42s (10s)
+[auk] OK auk_en_common_voice_en_10933823-common_voice_en_10933825_s2026 dur=3.42s (10s)
+[auk] OK auk_en_common_voice_en_10933823-common_voice_en_10933825_s1234 dur=3.42s (10s)
+[auk] OK auk_en_common_voice_en_120405-common_voice_en_120402_s42 dur=12.46s (15s)
+[auk] OK auk_en_common_voice_en_120405-common_voice_en_120402_s2026 dur=12.46s (15s)
+[auk] OK auk_en_common_voice_en_120405-common_voice_en_120402_s1234 dur=12.46s (15s)
+[auk] OK auk_en_common_voice_en_120405-common_voice_en_120406_s42 dur=6.04s (10s)
+[auk] OK auk_en_common_voice_en_120405-common_voice_en_120406_s2026 dur=6.04s (10s)
+[auk] OK auk_en_common_voice_en_120405-common_voice_en_120406_s1234 dur=6.04s (10s)
+[auk] OK auk_en_common_voice_en_1205005-common_voice_en_1205007_s42 dur=4.70s (7s)
+[auk] OK auk_en_common_voice_en_1205005-common_voice_en_1205007_s2026 dur=4.70s (7s)
+[auk] OK auk_en_common_voice_en_1205005-common_voice_en_1205007_s1234 dur=4.70s (7s)
+[auk] OK auk_en_common_voice_en_1205005-common_voice_en_1205008_s42 dur=3.60s (7s)
+[auk] OK auk_en_common_voice_en_1205005-common_voice_en_1205008_s2026 dur=3.60s (7s)
+[auk] OK auk_en_common_voice_en_1205005-common_voice_en_1205008_s1234 dur=3.60s (7s)
+[auk] OK auk_en_common_voice_en_123125-common_voice_en_123126_s42 dur=5.22s (9s)
+[auk] OK auk_en_common_voice_en_123125-common_voice_en_123126_s2026 dur=5.22s (9s)
+[auk] OK auk_en_common_voice_en_123125-common_voice_en_123126_s1234 dur=5.22s (8s)
+[auk] OK auk_en_common_voice_en_123125-common_voice_en_123127_s42 dur=5.22s (8s)
+[auk] OK auk_en_common_voice_en_123125-common_voice_en_123127_s2026 dur=5.22s (8s)
+[auk] OK auk_en_common_voice_en_123125-common_voice_en_123127_s1234 dur=5.22s (8s)
+[auk] OK auk_en_common_voice_en_125386-common_voice_en_125388_s42 dur=5.98s (9s)
+[auk] OK auk_en_common_voice_en_125386-common_voice_en_125388_s2026 dur=5.98s (9s)
+[auk] OK auk_en_common_voice_en_125386-common_voice_en_125388_s1234 dur=5.98s (8s)
+[auk] OK auk_en_common_voice_en_125386-common_voice_en_125389_s42 dur=4.32s (7s)
+[auk] OK auk_en_common_voice_en_125386-common_voice_en_125389_s2026 dur=4.32s (7s)
+[auk] OK auk_en_common_voice_en_125386-common_voice_en_125389_s1234 dur=4.32s (7s)
+[auk] OK auk_en_common_voice_en_137148-common_voice_en_137152_s42 dur=5.22s (10s)
+[auk] OK auk_en_common_voice_en_137148-common_voice_en_137152_s2026 dur=5.22s (9s)
+[auk] OK auk_en_common_voice_en_137148-common_voice_en_137152_s1234 dur=5.22s (9s)
+[auk] OK auk_en_common_voice_en_13900-common_voice_en_13901_s42 dur=5.62s (9s)
+[auk] OK auk_en_common_voice_en_13900-common_voice_en_13901_s2026 dur=5.62s (9s)
+[auk] OK auk_en_common_voice_en_13900-common_voice_en_13901_s1234 dur=5.62s (9s)
+[auk] OK auk_en_common_voice_en_1416089-common_voice_en_1416090_s42 dur=5.06s (8s)
+[auk] OK auk_en_common_voice_en_1416089-common_voice_en_1416090_s2026 dur=5.06s (8s)
+[auk] OK auk_en_common_voice_en_1416089-common_voice_en_1416090_s1234 dur=5.06s (8s)
+[auk] OK auk_en_common_voice_en_1416089-common_voice_en_1416093_s42 dur=6.28s (9s)
+[auk] OK auk_en_common_voice_en_1416089-common_voice_en_1416093_s2026 dur=6.28s (9s)
+[auk] OK auk_en_common_voice_en_1416089-common_voice_en_1416093_s1234 dur=6.28s (9s)
+[auk] OK auk_en_common_voice_en_15265-common_voice_en_15266_s42 dur=4.74s (10s)
+[auk] OK auk_en_common_voice_en_15265-common_voice_en_15266_s2026 dur=4.74s (9s)
+[auk] OK auk_en_common_voice_en_15265-common_voice_en_15266_s1234 dur=4.74s (9s)
+[auk] OK auk_en_common_voice_en_15265-common_voice_en_15268_s42 dur=5.68s (10s)
+[auk] OK auk_en_common_voice_en_15265-common_voice_en_15268_s2026 dur=5.68s (10s)
+[auk] OK auk_en_common_voice_en_15265-common_voice_en_15268_s1234 dur=5.68s (10s)

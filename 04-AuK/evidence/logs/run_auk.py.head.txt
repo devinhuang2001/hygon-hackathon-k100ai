@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+"""AuK 零样本 TTS 批量跑 T04 条件清单（120 条 clone）。
+输出: outputs/auk/<id>.wav （24kHz 单声道）
+"""
+import json, os, sys, time, traceback
+
+BASE = os.path.dirname(os.path.abspath(__file__))
+COND = os.path.join(BASE, "formal", "conditions", "auk.jsonl")
+OUTDIR = os.path.join(BASE, "outputs", "auk")
+CKPT = "/root/hygon/models/auk/auk_base.safetensors"
+QWEN = "/root/hygon/models/qwen-omni"
+
+
+def main():
+    os.makedirs(OUTDIR, exist_ok=True)
+    rows = [json.loads(l) for l in open(COND, encoding="utf-8") if l.strip()]
+    todo = [r for r in rows if not os.path.exists(os.path.join(OUTDIR, r["id"] + ".wav"))]
+    print(f"[auk] total={len(rows)} todo={len(todo)}", flush=True)
+    if not todo:
+        return
+    sys.path.insert(0, "/root/hygon/work/AuK/src")
+    # torchaudio 2.10 需要 TorchCodec；用 ffmpeg 打补丁替代 load/save
+    import subprocess as _sp
+    import torch as _torch
+    import torchaudio as _ta
+    import numpy as _np
+
+    def _ffmpeg_load(path, *a, **k):
+        probe = _sp.run(["ffprobe", "-v", "quiet", "-show_entries",
+                         "stream=sample_rate,channels", "-of", "json", str(path)],

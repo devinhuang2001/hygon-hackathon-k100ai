@@ -1,0 +1,31 @@
+{
+  "MODEL_ID": "XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B",
+  "CARD": "K100-AI",
+  "FRAMEWORK": "vllm 0.21.0+das.dtk2604",
+  "PRECISION": "bf16",
+  "mode": "abs",
+  "detail": {
+    "gsm8k": {
+      "got": 88.25,
+      "ref": null,
+      "worse": null,
+      "tol": 2.0,
+      "pass": null,
+      "n": 1319,
+      "correct": 1164,
+      "config": "5-shot, greedy, thinking off, max_tokens 512"
+    },
+    "mmlu": {
+      "got": 78.95,
+      "ref": null,
+      "worse": null,
+      "tol": 2.0,
+      "pass": null,
+      "n": 285,
+      "correct": 225,
+      "config": "0-shot, greedy, thinking off, max_tokens 32"
+    }
+  },
+  "passed": null,
+  "note": "官方 baselines/<MODEL_ID 中 / 换成 __>.json 未随分题材料下发，ref/worse/pass 留 null 不猜分（红线：伪造日志取消资格）。got 为 verify.py --abs 实跑绝对精度，源件 evidence/precision/gsm8k_verify.json / mmlu_verify.json。拿到官方基线后 `source env.sh && python verify.py` 会以官方口径覆盖产出本文件。"
+}

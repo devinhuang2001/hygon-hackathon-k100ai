@@ -16,6 +16,7 @@ Qwen3-ASR-1.7B 是 Qwen 团队的语音识别模型，1.7B 参数，音频经音
 - 权重下载：https://www.modelscope.cn/models/Qwen/Qwen3-ASR-1.7B
 - 镜像：`harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10`
 - 提交仓库：https://github.com/devinhuang2001/hygon-hackathon-k100ai/tree/main/01-Qwen3-ASR-1.7B
+- 光合社区代码托管（赛事要求）：https://developer.sourcefind.cn/codes/g_x8d7w4tr/Qwen3-ASR-1.7B-K100-AI
 
 参考文档：
 

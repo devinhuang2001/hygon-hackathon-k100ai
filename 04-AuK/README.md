@@ -16,6 +16,7 @@ AuK 是腾讯混元开源的语音生成与编辑基础模型（扩散 Transform
 - AuK 权重：https://github.com/Tencent-Hunyuan/AuK（release `auk_base.safetensors` / `vae.safetensors`）
 - 编码器权重：https://www.modelscope.cn/models/Qwen/Qwen2.5-Omni-3B
 - 提交仓库：https://github.com/devinhuang2001/hygon-hackathon-k100ai/tree/main/04-AuK
+- 光合社区代码托管（赛事要求）：https://developer.sourcefind.cn/codes/g_x8d7w4tr/AuK-K100-AI
 
 参考文档：
 
@@ -72,7 +73,7 @@ bash run.sh          # 装配依赖 + 批跑官方 120 条 → evidence/formal_a
 | 开发镜像 | `harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10`（Notebook 内解包 rootfs 使用） |
 | 模型获取方式 | AuK 权重取 GitHub 官方 release、编码器 Qwen2.5-Omni-3B 取 ModelScope，均 scp 上传实例 `/root/hygon/models/` |
 | 服务映射 | 无（in-process 批跑，无 HTTP 服务） |
-| 平台证据 | `platform/`：待补控制台截图（Notebook 创建页、实例详情、模型管理、服务映射）；实例侧环境说明见 `evidence/formal_auk/环境说明.txt` |
+| 平台证据 | `evidence/platform/`：01-env-selfcheck.png（环境自检：K500SM_AI/68.7GB/gfx928 + torch 2.10.0+das + DTK 26.04 + pip 清单 + 120 wav ffprobe 抽检 + batch log 全 OK）；02-outputs-verify.png（产物验证）；03-model-library.png（AI 社区模型管理/模型库页）；04-image-library.png（开发镜像库页）；05-model-auk-search.png（AuK 模型检索）。Notebook 创建页/服务映射为控制台私有页，实例侧等效证据见 `evidence/env.log` 与 `evidence/formal_auk/环境说明.txt` |
 
 ## 3. 适配优化方案
 

@@ -16,6 +16,7 @@ Qwen3-ForcedAligner-0.6B 是 Qwen3-ASR 系列配套的强制对齐模型：输�
 - 权重下载：https://www.modelscope.cn/models/Qwen/Qwen3-ForcedAligner-0.6B
 - 镜像：`harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10`
 - 提交仓库：https://github.com/devinhuang2001/hygon-hackathon-k100ai/tree/main/03-Qwen3-ForcedAligner-0.6B
+- 光合社区代码托管（赛事要求）：https://developer.sourcefind.cn/codes/g_x8d7w4tr/Qwen3-ForcedAligner-0.6B-K100-AI
 
 参考文档：
 

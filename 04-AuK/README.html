@@ -1,0 +1,120 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>README</title><style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  font-size: 10.5pt; line-height: 1.65; color: #1f2328; margin: 0;
+  padding: 0 2mm;
+}
+h1 { font-size: 19pt; border-bottom: 2px solid #1f6feb; padding-bottom: 6px; margin: 0 0 14px; color: #0b3d91; }
+h2 { font-size: 13.5pt; margin: 20px 0 8px; padding-left: 8px; border-left: 4px solid #1f6feb; color: #0b3d91; }
+h3 { font-size: 11.5pt; margin: 14px 0 6px; color: #24292f; }
+p { margin: 6px 0; }
+ul, ol { margin: 6px 0 6px 20px; padding: 0; }
+li { margin: 2px 0; }
+code { font-family: Consolas, "Cascadia Mono", monospace; font-size: 9pt;
+  background: #f2f4f7; padding: 1px 4px; border-radius: 3px; color: #b02a37; }
+pre.code { background: #f6f8fa; border: 1px solid #e3e6ea; border-radius: 4px;
+  padding: 8px 10px; overflow: visible; white-space: pre-wrap; word-break: break-all; }
+pre.code code { background: none; padding: 0; color: #1f2328; font-size: 8.6pt; line-height: 1.45; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 9pt; }
+th, td { border: 1px solid #d6dae0; padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: #eef3fb; font-weight: 600; }
+tr:nth-child(even) td { background: #fafbfc; }
+blockquote { margin: 8px 0; padding: 6px 10px; background: #fff8e6;
+  border-left: 3px solid #e0a800; color: #4d3c00; }
+a { color: #0b57d0; text-decoration: none; word-break: break-all; }
+hr { border: none; border-top: 1px solid #e3e6ea; margin: 14px 0; }
+thead { display: table-header-group; }
+tr, pre, h2, h3 { break-inside: avoid; }
+</style></head><body><h1>Tencent-Hunyuan/AuK on K100-AI（K500SM_AI 64GB）+ 官方源码推理</h1>
+<blockquote>本报告按《国芯国模黑客松 · 技术报告模板》8 章节填写，作为提交仓库的 <code>README.md</code>。 卡型说明：实测实例为 <code>K500SM_AI</code>，按赛事口径计入 <code>K100-AI</code>。</blockquote>
+<h2>1. 简介</h2>
+<p>本文档记录 <code>Tencent-Hunyuan/AuK</code>（1.5B 语音生成/编辑基础模型）在 <code>K100-AI（K500SM_AI 64GB）</code>（精度 <code>bf16</code>）环境的适配与验证结果。</p>
+<p>AuK 是腾讯混元开源的语音生成与编辑基础模型（扩散 Transformer + 层融合权重，<code>auk_base.safetensors</code> + <code>vae.safetensors</code>，共 1.69B 参数），MLLM 编码器为 <code>Qwen/Qwen2.5-Omni-3B</code>。本次执行官方分题 <code>auk.jsonl</code> 的 120 条零样本 TTS（voice clone）：Seed-TTS eval zh/en 各 60 条（40 组 × seed 42/2026/1234），按清单参数（nfe=32、cfg_strength=2.0、sway_sampling_coef=-1.0）生成 24 kHz 单声道 wav。</p>
+<p>与官方部署方式的核心差异：无模型代码改动，使用 GitHub <code>Tencent-Hunyuan/AuK</code> 官方源码直调 <code>AukInfer</code>；运维层面在离线环境补齐依赖链（torchdiffeq / x_transformers / einx / torch_einops_utils / librosa 等），并以 ffmpeg 等价替代 torchaudio 2.10 的 load/save（其依赖的 TorchCodec 在镜像内不可用，替代不影响模型计算）。</p>
+<p>相关获取地址：</p>
+<ul><li>AuK 权重：https://github.com/Tencent-Hunyuan/AuK（release <code>auk_base.safetensors</code> / <code>vae.safetensors</code>）</li><li>编码器权重：https://www.modelscope.cn/models/Qwen/Qwen2.5-Omni-3B</li><li>提交仓库：https://github.com/devinhuang2001/hygon-hackathon-k100ai/tree/main/04-AuK</li></ul>
+<p>参考文档：</p>
+<ul><li>AuK 官方源码与 README：https://github.com/Tencent-Hunyuan/AuK</li><li>MLLM 编码器 Qwen2.5-Omni-3B：https://www.modelscope.cn/models/Qwen/Qwen2.5-Omni-3B</li></ul>
+<p>一键复现（T04 交付物按分题材料为「反馈表 + 环境说明 + 逐条 outputs」，故不设 env_check.sh / smoke.sh / verify.py / bench.sh）：</p>
+<pre class="code" data-lang="bash"><code>git clone https://github.com/devinhuang2001/hygon-hackathon-k100ai &amp;&amp; cd hygon-hackathon-k100ai/04-AuK
+bash run.sh          # 装配依赖 + 批跑官方 120 条 → evidence/formal_auk/outputs/</code></pre>
+<p>前置（实例无外网，见 3.2/3.3）：预先按 manylinux2014_x86_64 + py3.10 拉 wheel 上传并 <code>pip3 install --no-index --find-links</code> 安装；AuK 源码按 3.3 以 PYTHONPATH 引入。 官方条件清单 <code>formal/auk.jsonl</code>（2026-10-30 下发原件）已在仓库内。</p>
+<h2>2. 验证环境</h2>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>卡型</td><td>K500SM_AI 64 GB × 1（按赛事口径计 K100-AI），120 SM</td></tr><tr><td>节点</td><td>SCNet Notebook，Hygon C86 7185 32C / 503 GB RAM，Ubuntu 24.04 容器</td></tr><tr><td>镜像基座</td><td><code>harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10</code>（rootfs 解包，Python/torch 同镜像）</td></tr><tr><td>Python</td><td>3.10.21</td></tr><tr><td>torch</td><td>2.10.0+das.opt1.dtk2604.2608141812（HIP 6.3.26113）</td></tr><tr><td>transformers</td><td>5.5.0（镜像自带）</td></tr><tr><td>AuK 源码</td><td>GitHub Tencent-Hunyuan/AuK 官方源码（未改动），<code>src/</code> 进 PYTHONPATH</td></tr><tr><td>模型路径</td><td>AuK: <code>/root/hygon/models/auk</code>；编码器: <code>/root/hygon/models/qwen-omni</code></td></tr><tr><td>推理方式</td><td><code>auk.infer.infer_auk.AukInfer</code> 直调（in-process），无 HTTP 服务</td></tr></tbody></table>
+<p>环境自检（本件环境原文见 <a href="evidence/formal_auk/环境说明.txt"><code>evidence/formal_auk/环境说明.txt</code></a>，关键部分摘录）：</p>
+<pre class="code" data-lang="text"><code>设备信息：
+- Hygon K500SM_AI 64GB × 1（按赛事口径计 K100-AI），DTK 26.04，SCNet Notebook 容器
+
+框架及版本：
+- vLLM 0.21.0+das.dtk2604.torch2100.2606111143（vllm-hcu 0.21.0+das.dtk2604.2608251643），
+  镜像 harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10（解包 rootfs 方式运行）
+- AuK 使用 GitHub Tencent-Hunyuan/AuK 官方源码（未改动），transformers 5.5.0，torch 2.10.0+das.opt1.dtk2604</code></pre>
+<p>本件与 01/03 件为同一 K500 实例、同一镜像 rootfs；实例级 <code>env.log</code> 原文见 01 件 <code>evidence/env.log</code>（python 3.10.21 / torch 2.10.0 / HIP 6.3.26113 / Device: K500SM_AI x 1）。</p>
+<p>超算互联网平台（参赛算力统一使用超算互联网，必填）：</p>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>区域</td><td>待控制台补填（共享算力实例内 metadata 服务 100.100.100.200 不可达，读不到 region，不臆造；请在超算互联网控制台「实例详情」确认，如西南一区）</td></tr><tr><td>Notebook 规格</td><td>Hygon C86 7185 32 核 / 503 GB 内存；overlay 文件系统 1.8 TB（实测可用约 311 GB）</td></tr><tr><td>加速卡与显存</td><td>K500SM_AI × 1（按赛事口径计 K100-AI）；64 GB</td></tr><tr><td>开发镜像</td><td><code>harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10</code>（Notebook 内解包 rootfs 使用）</td></tr><tr><td>模型获取方式</td><td>AuK 权重取 GitHub 官方 release、编码器 Qwen2.5-Omni-3B 取 ModelScope，均 scp 上传实例 <code>/root/hygon/models/</code></td></tr><tr><td>服务映射</td><td>无（in-process 批跑，无 HTTP 服务）</td></tr><tr><td>平台证据</td><td><code>evidence/platform/</code>：01-env-selfcheck.png（环境自检：K500SM_AI/68.7GB/gfx928 + torch 2.10.0+das + DTK 26.04 + pip 清单 + 120 wav ffprobe 抽检 + batch log 全 OK）；02-outputs-verify.png（产物验证）；03-model-library.png（AI 社区模型管理/模型库页）；04-image-library.png（开发镜像库页）；05-model-auk-search.png（AuK 模型检索）。Notebook 创建页/服务映射为控制台私有页，实例侧等效证据见 <code>evidence/env.log</code> 与 <code>evidence/formal_auk/环境说明.txt</code></td></tr></tbody></table>
+<h2>3. 适配优化方案</h2>
+<h3>3.1 基础镜像</h3>
+<p>同 01/03 件（vLLM 0.21 镜像 rootfs），Python/torch/DTK 全部复用。</p>
+<h3>3.2 软件包升级</h3>
+<p>镜像基础上离线安装（<code>requirements-extra.txt</code> 口径，均为纯 Python 包，不动 torch/transformers）：</p>
+<table><thead><tr><th>包</th><th>版本</th><th>用途</th></tr></thead><tbody><tr><td>torchdiffeq</td><td>0.2.5</td><td>AuK 扩散采样 ODE</td></tr><tr><td>x_transformers</td><td>0.42.0</td><td>AuK 模型依赖</td></tr><tr><td>einx / multimethod 1.12 / frozendict</td><td>—</td><td>x_transformers 依赖链</td></tr><tr><td>torch_einops_utils / einops</td><td>0.2.0 / 0.8.2</td><td>AuK 注意力实现</td></tr><tr><td>audioread / librosa 0.11.0（含 numba/llvmlite/soxr/soundfile 等）</td><td>—</td><td>qwen_omni_utils 音频处理</td></tr></tbody></table>
+<p>安装方式：本地 <code>pip download --platform manylinux2014_x86_64 --python-version 3.10</code> 拉 wheel → scp 上传 → <code>pip3 install --no-index --find-links</code>。实例无外网，全程离线。</p>
+<h3>3.3 代码改动</h3>
+<p>无模型代码改动。三处运行适配（不影响模型计算与输出）：</p>
+<ol><li><strong>torchaudio load/save 替代</strong>：镜像内 torchaudio 2.10 的 <code>load</code>/<code>save</code> 需要 TorchCodec（未随镜像提供）。</li></ol>
+<p>   <code>run_auk.py</code> 以 ffmpeg（f32le 16k/24k PCM）等价替代读写，张量形状与官方 <code>_load_audio</code> 约定一致    （返回 <code>[1, T]</code> 二维；官方在字符串分支会 <code>mean(dim=0)</code>，一维输入会塌成单采样点——已规避）。 2. <strong>qwen-omni 编码器目录补齐</strong>：远端目录原有 3 个权重分片但缺 <code>config.json</code> / <code>tokenizer*</code> /    <code>model.safetensors.index.json</code>，从 ModelScope 下载小文件补齐（权重分片本身未变）。 3. <strong>AuK 源码以 PYTHONPATH 方式引入</strong>（<code>src/</code> 不 pip install -e，避免改镜像 site-packages）。</p>
+<h3>3.4 升级步骤</h3>
+<p>解包镜像 → 离线装 3.2 列出的 wheel → 上传 AuK 源码与权重 → <code>bash run.sh</code>（批跑 120 条）。</p>
+<h2>4. 服务启动脚本</h2>
+<p>AuK 无 HTTP 服务，走 in-process 批跑。<code>run_auk.py</code> 关键调用：</p>
+<pre class="code" data-lang="python"><code>engine = AukInfer(
+    auk_path="/root/hygon/models/auk",
+    qwen_path="/root/hygon/models/qwen-omni",
+    cpu_offload=False)
+engine.generate(
+    audio=ref_wav,          # 参考音频（ffmpeg 读入 [1,T], 24k）
+    instruction=...,        # 按清单 instruction/text
+    gen_seconds=p["gen_seconds"], nfe=p["nfe"],
+    cfg_strength=p["cfg_strength"], sway_sampling_coef=p["sway_sampling_coef"],
+    seed=r["seed"])</code></pre>
+<p>参数全部取自官方条件清单（nfe=32、cfg_strength=2.0、sway_sampling_coef=-1.0、gen_seconds 与 seed 按条目），未做任何改动。</p>
+<h2>5. Smoke 测试</h2>
+<p>单条零样本 TTS（zh 参考音频 + 中文目标文本），输出 24 kHz 单声道 wav，时长落在清单 <code>expected.duration_min_s/max_s</code> 区间（6.02–6.12 s）。命令：</p>
+<pre class="code" data-lang="bash"><code>python3 run_auk.py          # 全量 120 条，逐条 [auk] OK &lt;id&gt;</code></pre>
+<h2>6. 精度测评</h2>
+<p><strong>官方分题材料（2026-10-30 下发）实测完成。</strong> 官方 <code>formal/conditions/auk.jsonl</code> 共 120 条 （Seed-TTS eval zh 60 / en 60，seed 42/2026/1234），全部在 K500 上跑通：<strong>120/120 成功、零失败</strong>。 逐条原始输出见 <a href="evidence/formal_auk/outputs/"><code>evidence/formal_auk/outputs/</code></a>， 官方反馈表 120 行见 <a href="evidence/formal_auk/反馈表-auk.csv"><code>evidence/formal_auk/反馈表-auk.csv</code></a>。</p>
+<p>输出规格（逐条验证）：24 kHz 单声道 wav，时长全部落在清单 <code>expected</code> 的 <code>duration_min_s</code>/<code>duration_max_s</code> 区间内。</p>
+<p><strong>关于音质指标（SIM / WER / MOS）：</strong> 官方清单不附带评分脚本与参考打分（<code>expected.kind=audio</code> 仅约束 格式与时长），本次按官方口径<strong>只交原始输出、不自造分数</strong>。克隆相似度等指标需官方评测方统一计算。</p>
+<p>批次汇总（按真实跑批清点，非官方评分——无分数类 verify_result.json）：</p>
+<pre class="code" data-lang="json"><code>{
+  "MODEL_ID": "Tencent-Hunyuan/AuK",
+  "CARD": "K100-AI (K500SM_AI 64GB)",
+  "FRAMEWORK": "AuK official source (AukInfer, in-process)",
+  "PRECISION": "bf16",
+  "batch": {
+    "conditions": "formal/auk.jsonl",
+    "total": 120,
+    "succeeded": 120,
+    "failed": 0,
+    "output": "24kHz mono wav, duration within expected.duration_min_s/max_s"
+  },
+  "metric": {"name": "SIM/WER/MOS", "value": null, "status": "待官方评测方统一计算"}
+}</code></pre>
+<p>反馈表（<code>evidence/formal_auk/反馈表-auk.csv</code>，120 行）列名： <code>condition_id,model,status,output_path,error,parameter_changes</code>。</p>
+<h2>7. 性能参考</h2>
+<p>官方压测脚本未下发，给出<strong>自定但可复现</strong>的批跑口径（日志见 <code>run_auk.py</code> 执行输出）：</p>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>任务</td><td>官方 120 条（zh/en 各 60，gen_seconds ≈ 4–11 s/条）</td></tr><tr><td>单条延迟</td><td>≈ 8 s（含 VAE 解码；扩散 32 步 + 扩散采样）</td></tr><tr><td>总墙钟</td><td>≈ 16 分钟（120 条，含引擎/权重加载约 3 分钟）</td></tr><tr><td>显存</td><td>实测峰值 ≈ 25 GiB（bf16，与官方 A800 实测 24.8–25.0 GiB 一致）</td></tr></tbody></table>
+<h2>8. 注意事项</h2>
+<ul><li><strong>TorchCodec 缺失</strong>：torchaudio 2.10 的 <code>load</code>/<code>save</code> 在本镜像不可用，已用 ffmpeg 等价替代</li></ul>
+<p>  （见 3.3）。注意 load 返回 <code>[1, T]</code> 二维张量——AuK 官方 <code>_load_audio</code> 在字符串分支有   <code>mean(dim=0)</code>，一维输入会塌成单采样点导致 conv1d 报错。</p>
+<ul><li><strong>依赖全离线</strong>：实例无外网，3.2 的 wheel 需预先下载上传。librosa 0.11 链（numba/llvmlite）</li></ul>
+<p>  按 manylinux2014_x86_64 + py3.10 下载，Windows wheel 不适用。</p>
+<ul><li><strong>qwen-omni 缺配置文件</strong>：只有权重分片不够，缺 <code>config.json</code>/<code>tokenizer*</code>/<code>model.safetensors.index.json</code></li></ul>
+<p>  时 AukInfer 加载报 KeyError，补齐小文件即可（权重不动）。</p>
+<ul><li><strong>seed 语义</strong>：清单 seed=42/2026/1234 决定扩散初始噪声，同一参考音频 + 同 seed 可复现。</li><li>输出时长由 <code>gen_seconds</code> 控制（清单逐条给出），<code>duration_budget_rule</code> 只是校验口径。</li></ul>
+<hr>
+<h3>仓库内容</h3>
+<table><thead><tr><th>文件</th><th>对应报告章节</th><th>说明</th></tr></thead><tbody><tr><td><code>env.sh</code></td><td>2 / 4</td><td>变量表（AuK/编码器路径、PYTHONPATH）</td></tr><tr><td><code>run.sh</code></td><td>4</td><td>装配环境 + 批跑 120 条</td></tr><tr><td><code>run_auk.py</code></td><td>3 / 4</td><td>批跑脚本（含 ffmpeg load/save 替代）</td></tr><tr><td><code>formal/auk.jsonl</code></td><td>6</td><td>官方分题条件清单（2026-10-30 下发原件）</td></tr><tr><td><code>evidence/</code></td><td>—</td><td>原始产物（formal_auk/ 含 120 条 wav 与官方反馈表）</td></tr></tbody></table></body></html>
