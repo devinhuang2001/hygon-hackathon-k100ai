@@ -1,0 +1,134 @@
+{
+  "version": "3.1",
+  "date": "2026-10-29",
+  "scope": "Selected real input data only; no model execution, generated output, or quality/performance results.",
+  "geneval": {
+    "url": "https://raw.githubusercontent.com/djghosh13/geneval/main/prompts/evaluation_metadata.jsonl",
+    "retrieved_via": "https://ghfast.top/https://raw.githubusercontent.com/djghosh13/geneval/main/prompts/evaluation_metadata.jsonl",
+    "sha256": "5c48e0813e812e3c373fa5c8ed07a8f0a483be30272b4427b0559c8048e67c13",
+    "evidence_type": "public_benchmark",
+    "selection": "first10 per six original tags; unchanged text/labels",
+    "conditions": 60,
+    "expanded": 180,
+    "local": "data/geneval/evaluation_metadata.jsonl"
+  },
+  "vbench": {
+    "canonical_url": "https://raw.githubusercontent.com/Vchitect/VBench/master/prompts/all_dimension.txt",
+    "retrieved_via": "https://ghfast.top/https://raw.githubusercontent.com/Vchitect/VBench/master/prompts/all_dimension.txt",
+    "original_source_sha256": "f9b50654f81ab732b9235d5bb91f0c3a4d152fac19249ce3a3a9185b2d80d8c3",
+    "selection": "first20 nonempty original lines",
+    "conditions": 20,
+    "expanded": 60,
+    "local": "data/vbench/all_dimension.selected.txt"
+  },
+  "vbench_i2v": {
+    "url": "https://raw.githubusercontent.com/Vchitect/VBench/master/vbench2_beta_i2v/vbench2_i2v_full_info.json",
+    "retrieved_via": "https://ghfast.top/https://raw.githubusercontent.com/Vchitect/VBench/master/vbench2_beta_i2v/vbench2_i2v_full_info.json",
+    "sha256": "8cf4d34dc11779a336c216a1a71d482927cfa24a1bf736ab5c92425609f129f8",
+    "image_mirror": "https://huggingface.co/datasets/dc-ai/vbench_i2v",
+    "revision": "e3d5ecd4b92dda5c0a842e9b8bc04e7a2d6630ac",
+    "selection": "official full_info base prompts containing i2v_background or i2v_subject; deduplicate image_name; first20 filename-sorted; 16-9 original mirror crops",
+    "protocol_change": "official full_info image_name/prompt_en used instead of unavailable Drive i2v-bench-info; derived fields explicitly recorded",
+    "images": 20,
+    "expanded": 60,
+    "local": "data/vbench_i2v"
+  },
+  "seedtts": {
+    "official": "https://github.com/BytedanceSpeech/seed-tts-eval",
+    "mirror": "https://huggingface.co/datasets/zhaochenyang20/seed-tts-eval",
+    "revision": "8f5e1aa2a35d42f42e940074c1983358b9491f89",
+    "selection": "first20 original IDs per language, lexicographic",
+    "conditions": 40,
+    "unique_reference_audio": 21,
+    "per_model_expanded": 120,
+    "duration_budget": "ratio estimate frozen by scheme; not human-reviewed or model-verified",
+    "local": "data/seedtts"
+  },
+  "librispeech": {
+    "official": "https://www.openslr.org/12/",
+    "mirror": "https://huggingface.co/datasets/openslr/librispeech_asr",
+    "revision": "71cacbfb7e2354c4226d01e70d77d5fca3d04ba1",
+    "selection": "first100 IDs sorted independently per original test-clean/test-other split",
+    "conditions": 200,
+    "storage": "original FLAC bytes and matching original transcripts only; Parquet range reads",
+    "local": "data/LibriSpeech"
+  },
+  "aishell": {
+    "official": "https://www.openslr.org/33/",
+    "mirror": "https://huggingface.co/datasets/TwinkStart/AISHELL-1",
+    "revision": "2a509ef3a7a88d3234205eaeecba39fdd9d50518",
+    "transcript_source": "https://huggingface.co/datasets/AISHELL/AISHELL-1/blob/bbe295d530192a4cd41644b711c9aecd087df653/data_aishell/transcript/aishell_transcript_v0.8.txt",
+    "selection": "read original names across all three test shards; first100 IDs sorted; only corresponding original transcript lines retained",
+    "conditions": 100,
+    "local": "data/aishell"
+  },
+  "dtu": {
+    "official": "https://roboimagedata.compute.dtu.dk/?page_id=36",
+    "mirror": "https://huggingface.co/datasets/supmelon/dtu",
+    "revision": "915a9b73ce6d10ef931511a43248e401d51e5e99",
+    "distribution": "dtu_test_mvsnet.zip; MVSNet preprocessed DTU test version, not raw Rectified image bytes",
+    "selection": {
+      "scenes": [
+        1,
+        4,
+        9,
+        10,
+        11
+      ],
+      "view_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9
+      ]
+    },
+    "images": 50,
+    "paired_cameras": 50,
+    "transfer": "selected ZIP members via HTTP ranges, original member CRC32 checked",
+    "configuration": {
+      "url": "https://raw.githubusercontent.com/Tencent-Hunyuan/HY-World-2.0/main/hyworld2/worldrecon/pipeline.py",
+      "retrieved_via": "https://ghfast.top/https://raw.githubusercontent.com/Tencent-Hunyuan/HY-World-2.0/main/hyworld2/worldrecon/pipeline.py",
+      "sha256": "7f8b895420989161c433d56f11c01de8b75cc2a36c9758f69da59a0938d7a665",
+      "local": "data/dtu/reconstruction_config.json",
+      "origin": "scheme-authored API settings; not runtime facts"
+    },
+    "local": "data/dtu"
+  },
+  "forced_alignment": {
+    "conditions": 30,
+    "audio": "reuse first30 <=15s original-ID-sorted LibriSpeech test-clean samples; no duplicated media",
+    "evaluation_status": "BOUNDARIES_PENDING",
+    "available": "inference, timing, output validity",
+    "unavailable": "boundary MAE and 50/100ms accuracy until human labels reviewed"
+  },
+  "music3": {
+    "evidence_type": "scheme_created",
+    "conditions": 20,
+    "expanded": 60,
+    "external_audio_required": false
+  },
+  "checks": "all 9 canonical manifests validated; all downloaded audio/images fully decoded; no benchmark model run",
+  "upstream_cli_audit": {
+    "geneval_evaluator": {
+      "url": "https://raw.githubusercontent.com/djghosh13/geneval/main/evaluation/evaluate_images.py",
+      "sha256": "c0fdeb8315f7d3ed72b56f466652afba5216f854109c6eeea339f9982474ea46",
+      "status": "SOURCE_ARGUMENTS_INSPECTED_NOT_EXECUTED"
+    },
+    "geneval_summary": {
+      "url": "https://raw.githubusercontent.com/djghosh13/geneval/main/evaluation/summary_scores.py",
+      "sha256": "302212beb80359b03fde980f4a71e76e44e41969bd917af6345310a715761aae",
+      "status": "SOURCE_ARGUMENTS_INSPECTED_NOT_EXECUTED"
+    },
+    "vbench_evaluator": {
+      "url": "https://raw.githubusercontent.com/Vchitect/VBench/master/evaluate.py",
+      "sha256": "ba202dcfc15237e5b556a41efdf2cf3aaa13f94f6e62c6d9308d59f2e6649ff6",
+      "status": "SOURCE_ARGUMENTS_INSPECTED_NOT_EXECUTED"
+    }
+  }
+}

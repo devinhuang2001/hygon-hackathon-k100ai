@@ -116,13 +116,28 @@ curl http://localhost:8000/v1/audio/transcriptions \
 
 ## 6. 精度测评
 
-**未完成 —— 缺官方输入。** 赛事要求 `verify.py` 调用 `baselines/<模型>.json` 里写死的子集与题数、
-max_tokens、思考开关与官方 GPU 基线分数，并现场跑出分数。该基线文件与 `data/` 评测子集
-（T04 为 WER / CER / AAS 口径）**随分题材料下发，本仓库未持有**，因此本报告不提供精度数字。
+**官方分题材料（2026-10-30 下发）实测完成。** 官方 `formal/conditions/qwen3_asr.jsonl`
+共 300 条（AISHELL-1 test 100 / LibriSpeech test-clean 100 / test-other 100），
+seed=42、temperature=0、bf16，全部在 K500 上跑通：**300/300 成功、零失败**。
 
-`verify.py` 已按官方判分逻辑实现（容差 2%、只罚劣化不罚提升、`--selfcheck` 自检通过），
-把官方 `baselines/Qwen__Qwen3-ASR-1.7B.json` 与 `data/` 放入后即可直接产出 `verify_result.json`。
-按赛事红线，不臆造精度分数。
+打分口径：中文按字级编辑距离（CER）、英文按词级编辑距离（WER），均去除标点后计算
+（脚本 `verify_formal.py`，逐条原始输出见 `evidence/formal_asr/outputs/`，
+汇总见 `evidence/formal_asr/verify_result.json`，官方反馈表 300 行见
+`evidence/formal_asr/反馈表-qwen3_asr.csv`）。
+
+| 测试集 | 条数 | 官方 GPU 参考 | 本机 K500 实测 |
+| --- | --- | --- | --- |
+| AISHELL-1 test CER | 100 | — | **1.00%** |
+| LibriSpeech test-clean WER | 100 | 1.63 | **1.11%** |
+| LibriSpeech test-other WER | 100 | 3.38 | **3.31%** |
+
+LibriSpeech 两个子集与官方 README 公布的 GPU 参考值（clean 1.63 / other 3.38）一致，
+判定模型精度在 K500（DTK 26.04 + vLLM 0.21.0）上无损。
+
+执行细节（如实说明）：官方 `baselines/<模型>.json` 基线文件未随分题材料下发，本节数字由
+官方条件清单直接打分产出，非对照 verify.py 基线容差；vLLM `/v1/audio/transcriptions`
+端点在本环境对 PCM wav/flac 直读会产生重复/空输出（详见第 8 节），故全部音频先经
+ffmpeg 转 16 kHz 单声道 mp3 后提交——mp3 通路经同一内容对照验证输出正确，模型与权重未改动。
 
 ## 7. 性能参考
 
@@ -158,6 +173,11 @@ bf16 与 fp16 数字完全一致，怀疑该版本 bf16 走了 fp16 通路，未
   不能当作文本 LLM 使用，也不要用它做语言侧压测。
 - `/v1/chat/completions` 传本地文件路径需要 `--allowed-local-media-path`，本方案未开启；
   转写请用 `/v1/audio/transcriptions`。
+- **PCM wav/flac 直读输出异常（仅音频解码路径）**：同一音频内容分别以 wav 与 mp3 送
+  `/v1/audio/transcriptions`，wav 返回重复单字/空文本、mp3 返回正确转写——判定服务端 PCM
+  解码路径问题。官方 300 条跑批因此统一先 `ffmpeg` 转 16 kHz 单声道 mp3 再提交
+  （见 `evidence/formal_asr/run_asr.py`），mp3 通路输出经与参考文本对照验证正确，
+  模型与权重未改动。
 
 ---
 
@@ -170,5 +190,7 @@ bf16 与 fp16 数字完全一致，怀疑该版本 bf16 走了 fp16 通路，未
 | `env_check.sh` | 2 | 采集版本 → `evidence/env.log` |
 | `smoke.sh` | 5 | 健康检查 + 中英转写 → `evidence/smoke.log` |
 | `verify.py` | 6 | 官方判分逻辑（`--selfcheck` 可用；缺基线文件时不臆造分数） |
+| `verify_formal.py` | 6 | 官方分题 300 条 CER/WER 打分 → `evidence/formal_asr/verify_result.json` |
+| `formal/` | 6 | 官方分题条件清单 `qwen3_asr.jsonl`（2026-10-30 下发原件） |
 | `bench.sh` / `asr_bench.py` | 7 | ASR 并发吞吐 → `evidence/bench.txt` |
-| `evidence/` | — | 上述原始产物 |
+| `evidence/` | — | 上述原始产物（`formal_asr/` 含 300 条逐条输出与官方反馈表） |
