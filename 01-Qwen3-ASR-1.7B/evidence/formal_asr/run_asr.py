@@ -4,9 +4,9 @@
 """
 import json, os, sys, time, threading
 
-BASE = os.path.dirname(os.path.abspath(__file__))
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # 仓库根（本脚本在 evidence/formal_asr/ 下）
 COND = os.path.join(BASE, "formal", "conditions", "qwen3_asr.jsonl")
-OUTDIR = os.path.join(BASE, "outputs", "qwen3_asr")
+OUTDIR = os.path.join(BASE, "evidence", "formal_asr", "outputs")
 PORT = os.environ.get("ASR_PORT", "8000")
 SERVED = "qwen3-asr-1.7b"
 CONC = int(os.environ.get("ASR_CONC", "8"))

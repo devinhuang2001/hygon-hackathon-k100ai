@@ -17,6 +17,28 @@ MiMo-V2.6-Distill-Qwen-9B 是小米 MiMo 的 9B 蒸馏模型，基于 Qwen3.5 �
 - 镜像：`harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10`
 - 提交仓库：https://github.com/devinhuang2001/hygon-hackathon-k100ai/tree/main/07-MiMo-V2.6-Distill-Qwen-9B
 
+参考文档：
+
+- MiMo-V2.6-Distill-Qwen-9B 官方模型卡：https://www.modelscope.cn/models/XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B
+- vLLM 文档：https://docs.vllm.ai
+
+一键复现：
+
+```bash
+git clone https://github.com/devinhuang2001/hygon-hackathon-k100ai && cd hygon-hackathon-k100ai/07-MiMo-V2.6-Distill-Qwen-9B
+bash run.sh                    # 装配 + 起服务（127.0.0.1:8000），轮询 /health
+bash env_check.sh              # 采集版本 → env.log
+bash smoke.sh                  # 单轮/多轮/算术/流式 → smoke.log
+source env.sh && python verify.py --selfcheck   # 确认判分逻辑未被改动
+# 第 6 节精度（官方基线文件未下发，走 --abs 绝对精度；数据集在 data/）：
+python verify.py --abs --dataset gsm8k --data data/gsm8k_test.jsonl --train data/gsm8k_train.jsonl --shots 5 --conc 24 --out gsm8k_verify.json
+python verify.py --abs --dataset mmlu  --data data/mmlu_test.parquet --per-subject 5 --conc 24 --out mmlu_verify.json
+bash bench.sh                  # 简化网格 → evidence/bench/
+```
+
+`verify.py` 默认（官方口径）模式需 `baselines/<模型>.json`，未随分题材料下发前按设计报错退出、不猜分；
+`--abs` 产出的 JSON 归档在 `evidence/precision/`。
+
 ## 2. 验证环境
 
 | 项 | 值 |
@@ -29,6 +51,33 @@ MiMo-V2.6-Distill-Qwen-9B 是小米 MiMo 的 9B 蒸馏模型，基于 Qwen3.5 �
 | 模型路径 | `/root/hygon/models/mimo` |
 
 完整输出见 [`evidence/env.log`](evidence/env.log)。
+
+环境自检（`env.log` 关键部分原文）：
+
+```text
+model_dir: /root/hygon/models/mimo
+served_name: mimo-v2.6-9b
+image: harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10
+python: 3.10.21
+torch: 2.10.0
+HIP: 6.3.26113
+Device: K500SM_AI x 1
+flash_attn                                 2.8.3+das185.dtk2604.torch2100.2608142153.ge8ddf7
+```
+
+（triton / vllm / vllm-hcu 版本见上表，与 `server.log` 首行一致；完整 pip 清单见 `env.log`。）
+
+超算互联网平台（参赛算力统一使用超算互联网，必填）：
+
+| 项 | 值 |
+| --- | --- |
+| 区域 | 待控制台补填（共享算力实例内 metadata 服务 100.100.100.200 不可达，读不到 region，不臆造；请在超算互联网控制台「实例详情」确认，如西南一区） |
+| Notebook 规格 | Hygon C86 7185 32 核 / 503 GB 内存；overlay 文件系统 1.8 TB（实测可用约 311 GB） |
+| 加速卡与显存 | K500SM_AI × 1（按赛事口径计 K100-AI）；64 GB |
+| 开发镜像 | `harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10`（Notebook 内解包 rootfs 使用） |
+| 模型获取方式 | ModelScope（魔搭）模型库下载后 scp 上传实例 `/root/hygon/models/` |
+| 服务映射 | 无（后端 `127.0.0.1:8000` 仅实例内访问，未配置平台服务映射） |
+| 平台证据 | `platform/`：待补控制台截图（Notebook 创建页、实例详情、模型管理、服务映射）；实例侧自检原文见 `evidence/env.log`（含 hy-smi 输出） |
 
 ## 3. 适配优化方案
 
@@ -125,6 +174,47 @@ python verify.py --abs --dataset mmlu  --data data/mmlu_test.parquet \
   拿到 `baselines/<模型>.json` 后按它的 `shots`/`max_tokens`/思考开关复跑即可。
 - 同一配置下早期用另一支独立脚本测得 87.26%（1151/1319），与本节的 88.25% 差 0.99 pt，
   在并发 24 下属于答案抽取边界样本的正常波动区间，本节以 `verify.py` 的结果为准。
+
+评测结果 JSON 原文（`verify.py --abs` 产出，归档于 `evidence/precision/`）：
+
+```json
+{
+  "model": "mimo-v2.6-9b",
+  "model_id": "XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B",
+  "dataset": "gsm8k",
+  "n": 1319,
+  "correct": 1164,
+  "accuracy": 0.8825,
+  "stderr": 0.0089,
+  "elapsed_s": 908.4,
+  "mode": "abs",
+  "verdict": null,
+  "baseline": null,
+  "note": "官方 baselines/<模型>.json 未随分题材料下发，此处为公开数据集上的绝对精度；拿到官方基线文件后按同一配置复跑即可计算劣化幅度。"
+}
+```
+
+```json
+{
+  "model": "mimo-v2.6-9b",
+  "model_id": "XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B",
+  "dataset": "mmlu",
+  "n": 285,
+  "correct": 225,
+  "accuracy": 0.7895,
+  "stderr": 0.0241,
+  "elapsed_s": 17.6,
+  "mode": "abs",
+  "verdict": null,
+  "baseline": null,
+  "note": "官方 baselines/<模型>.json 未随分题材料下发，此处为公开数据集上的绝对精度；拿到官方基线文件后按同一配置复跑即可计算劣化幅度。"
+}
+```
+
+格式说明：模板的 `detail{got/ref/worse/tol/pass}` 格式依赖官方基线文件（`ref` 与容差判定），
+未下发前 `verify.py` 默认模式不产出该格式、也不填推测值（赛事红线：伪造日志取消资格）；
+上列两份为 `--abs` 模式的原始 JSON，`verdict`/`baseline` 为 null 即未做基线比较，
+拿到 `baselines/<模型>.json` 后按同一配置复跑即可产出标准格式并计算劣化幅度。
 
 
 ## 7. 性能参考

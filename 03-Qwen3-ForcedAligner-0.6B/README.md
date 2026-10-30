@@ -17,6 +17,23 @@ Qwen3-ForcedAligner-0.6B 是 Qwen3-ASR 系列配套的强制对齐模型：输�
 - 镜像：`harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10`
 - 提交仓库：https://github.com/devinhuang2001/hygon-hackathon-k100ai/tree/main/03-Qwen3-ForcedAligner-0.6B
 
+参考文档：
+
+- Qwen3-ForcedAligner-0.6B 官方模型卡：https://www.modelscope.cn/models/Qwen/Qwen3-ForcedAligner-0.6B
+- 对齐算法出处：官方 `qwen_asr/inference/qwen3_forced_aligner.py`（Qwen3-ASR 发布物，本仓库 `fa_align.py` 逐行复刻）
+- vLLM pooling（token classification）文档：https://docs.vllm.ai
+
+一键复现（T04 交付物按分题材料为「反馈表 + 逐条 outputs」，故不设 env_check.sh / smoke.sh / verify.py / bench.sh）：
+
+```bash
+git clone https://github.com/devinhuang2001/hygon-hackathon-k100ai && cd hygon-hackathon-k100ai/03-Qwen3-ForcedAligner-0.6B
+bash run.sh                                              # relink 装配 + 批跑官方 30 条 → evidence/formal_fa/outputs/
+python3 fa_align.py <audio.wav> "<文本>" <language>        # 单条对齐（第 5 节 smoke 同款）
+```
+
+官方条件清单 `formal/forced_aligner.jsonl`（2026-10-30 下发原件）已在仓库内，`run.sh` 即
+模板验证顺序中的「装配 + 评测」一步；反馈表与逐条输出见 `evidence/formal_fa/`。
+
 ## 2. 验证环境
 
 | 项 | 值 |
@@ -37,6 +54,35 @@ Qwen3-ForcedAligner-0.6B 是 Qwen3-ASR 系列配套的强制对齐模型：输�
 
 > 本实例无容器运行时（无 docker/podman），镜像经 harbor 匿名 pull 后在 Notebook 内解包为 rootfs，
 > 驱动 `/opt/hyhal` 由平台注入——这与容器内的实际形态一致（DTK/Python 包来自镜像，驱动来自宿主）。
+
+环境自检（`evidence/env.log` 关键部分原文）：
+
+```text
+image: harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10
+image_note: 镜像层在 Notebook 内解包到 /root/hygon/rootfs（本实例无容器运行时），DTK/包取自镜像，驱动 /opt/hyhal 由平台注入
+dtk: /opt/dtk-26.04  (rocm_path=/root/hygon/rootfs/opt/dtk)
+python: 3.10.21
+torch: 2.10.0
+HIP: 6.3.26113
+Device: K500SM_AI x 1
+flash_attn                                 2.8.3+das185.dtk2604.torch2100.2608142153.ge8ddf7
+transformers                               5.5.0
+triton                                     3.6.0+das185.dtk2604.torch2100.2608141110.g65af71
+vllm                                       0.21.0+das.dtk2604.torch2100.2606111143.g8c979d
+vllm-hcu                                   0.21.0+das.dtk2604.torch2100.2608251643.g135f01
+```
+
+超算互联网平台（参赛算力统一使用超算互联网，必填）：
+
+| 项 | 值 |
+| --- | --- |
+| 区域 | 待控制台补填（共享算力实例内 metadata 服务 100.100.100.200 不可达，读不到 region，不臆造；请在超算互联网控制台「实例详情」确认，如西南一区） |
+| Notebook 规格 | Hygon C86 7185 32 核 / 503 GB 内存；overlay 文件系统 1.8 TB（实测可用约 311 GB） |
+| 加速卡与显存 | K500SM_AI × 1（按赛事口径计 K100-AI）；64 GB |
+| 开发镜像 | `harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10`（Notebook 内解包 rootfs 使用） |
+| 模型获取方式 | ModelScope（魔搭）模型库下载后 scp 上传实例 `/root/hygon/models/` |
+| 服务映射 | 无（in-process 批跑，无 HTTP 服务） |
+| 平台证据 | `platform/`：待补控制台截图（Notebook 创建页、实例详情、模型管理、服务映射）；实例侧自检原文见 `evidence/env.log`（含 hy-smi 输出） |
 
 ## 3. 适配优化方案
 
@@ -131,7 +177,45 @@ python3 fa_align.py audio.wav "The tribal chief then called for the boy..." Engl
 来自 MFA 标注集对照，本次无对应参考数据，按赛事红线不臆造分数。待参考边界下发后可直接用
 本仓库的 `evidence/formal_fa/outputs/` 对照计算。
 
-输出格式（按官方 4.1 要求）：每条一个 JSON，`items[]` 含 `text` / `start` / `end`，单位秒。
+输出格式（逐条 outputs 实际结构）：每条一个 JSON，含 `condition_id` / `language` / `unit`，
+词级起止时间在 `words[]`（每个词 `text` / `start` / `end`，单位秒）。
+
+批次汇总（按真实跑批清点，非官方评分——清单标注 `BOUNDARIES_PENDING`，无分数类 verify_result.json）：
+
+```json
+{
+  "MODEL_ID": "Qwen/Qwen3-ForcedAligner-0.6B",
+  "CARD": "K100-AI (K500SM_AI 64GB)",
+  "FRAMEWORK": "vLLM 0.21.0 in-process pooling (token_classify)",
+  "PRECISION": "bf16",
+  "batch": {
+    "conditions": "formal/forced_aligner.jsonl",
+    "total": 30,
+    "succeeded": 30,
+    "failed": 0
+  },
+  "metric": {"name": "AAS", "value": null, "status": "BOUNDARIES_PENDING"}
+}
+```
+
+反馈表（`evidence/formal_fa/反馈表-forced_aligner.csv`，30 行）列名：
+`condition_id,model,status,output_path,error,parameter_changes`。
+单条输出原文节选（逐字取自 `evidence/formal_fa/outputs/1089-134686-0000.json`，全文 31 词）：
+
+```json
+{
+ "condition_id": "1089-134686-0000",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {"text": "HE", "start": 0.48, "end": 0.72},
+  {"text": "HOPED", "start": 0.72, "end": 1.04},
+  {"text": "THERE", "start": 1.04, "end": 1.12},
+  ...
+  {"text": "SAUCE", "start": 9.44, "end": 10.08}
+ ]
+}
+```
 
 ## 7. 性能参考
 

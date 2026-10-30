@@ -17,6 +17,29 @@ Qwen3-ASR-1.7B 是 Qwen 团队的语音识别模型，1.7B 参数，音频经音
 - 镜像：`harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10`
 - 提交仓库：https://github.com/devinhuang2001/hygon-hackathon-k100ai/tree/main/01-Qwen3-ASR-1.7B
 
+参考文档：
+
+- Qwen3-ASR-1.7B 官方模型卡（用法、限制与 GPU 参考值）：https://www.modelscope.cn/models/Qwen/Qwen3-ASR-1.7B
+- vLLM OpenAI API Server 文档：https://docs.vllm.ai
+- 官方分题材料（2026-10-30 下发）：条件清单 `formal/conditions/qwen3_asr.jsonl`（原件在仓库内）
+
+一键复现：
+
+```bash
+git clone https://github.com/devinhuang2001/hygon-hackathon-k100ai && cd hygon-hackathon-k100ai/01-Qwen3-ASR-1.7B
+bash run.sh                                    # 装配 rootfs + 起 vLLM 服务（127.0.0.1:8000），轮询 /health
+bash env_check.sh                              # 采集版本 → evidence/env.log
+bash smoke.sh                                  # 健康检查 + 中英转写 → evidence/smoke.log
+source env.sh && python3 verify.py --selfcheck # 确认官方判分逻辑未被改动
+python3 evidence/formal_asr/run_asr.py         # 官方 300 条转写 → evidence/formal_asr/outputs/
+python3 verify_formal.py                       # CER/WER 打分 → evidence/formal_asr/verify_result.json
+bash bench.sh                                  # ASR 并发吞吐 → evidence/bench.txt
+```
+
+说明：`run_asr.py` 需分题材料的音频资产（未随仓库分发，按条件清单 `assets.audio.path` 的相对路径
+`../../data/...` 备好 `data/` 目录即可）；`verify.py` 官方口径需 `baselines/<模型>.json`（未随分题材料下发，
+缺文件时按设计报错退出、不猜分）。
+
 ## 2. 验证环境
 
 | 项 | 值 |
@@ -38,6 +61,35 @@ Qwen3-ASR-1.7B 是 Qwen 团队的语音识别模型，1.7B 参数，音频经音
 
 > 本实例无容器运行时（无 docker/podman），镜像经 harbor 匿名 pull 后在 Notebook 内解包为 rootfs，
 > 驱动 `/opt/hyhal` 由平台注入——这与容器内的实际形态一致（DTK/Python 包来自镜像，驱动来自宿主）。
+
+环境自检（`evidence/env.log` 关键部分原文）：
+
+```text
+image: harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10
+image_note: 镜像层在 Notebook 内解包到 /root/hygon/rootfs（本实例无容器运行时），DTK/包取自镜像，驱动 /opt/hyhal 由平台注入
+dtk: /opt/dtk-26.04  (rocm_path=/root/hygon/rootfs/opt/dtk)
+python: 3.10.21
+torch: 2.10.0
+HIP: 6.3.26113
+Device: K500SM_AI x 1
+flash_attn                                 2.8.3+das185.dtk2604.torch2100.2608142153.ge8ddf7
+transformers                               5.5.0
+triton                                     3.6.0+das185.dtk2604.torch2100.2608141110.g65af71
+vllm                                       0.21.0+das.dtk2604.torch2100.2606111143.g8c979d
+vllm-hcu                                   0.21.0+das.dtk2604.torch2100.2608251643.g135f01
+```
+
+超算互联网平台（参赛算力统一使用超算互联网，必填）：
+
+| 项 | 值 |
+| --- | --- |
+| 区域 | 待控制台补填（共享算力实例内 metadata 服务 100.100.100.200 不可达，读不到 region，不臆造；请在超算互联网控制台「实例详情」确认，如西南一区） |
+| Notebook 规格 | Hygon C86 7185 32 核 / 503 GB 内存；overlay 文件系统 1.8 TB（实测可用约 311 GB） |
+| 加速卡与显存 | K500SM_AI × 1（按赛事口径计 K100-AI）；64 GB |
+| 开发镜像 | `harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10`（Notebook 内解包 rootfs 使用） |
+| 模型获取方式 | ModelScope（魔搭）模型库下载后 scp 上传实例 `/root/hygon/models/` |
+| 服务映射 | 无（后端 `127.0.0.1:8000` 仅实例内访问，未配置平台服务映射） |
+| 平台证据 | `platform/`：待补控制台截图（Notebook 创建页、实例详情、模型管理、服务映射）；实例侧自检原文见 `evidence/env.log`（含 hy-smi 输出） |
 
 ## 3. 适配优化方案
 
@@ -139,6 +191,42 @@ LibriSpeech 两个子集与官方 README 公布的 GPU 参考值（clean 1.63 / 
 端点在本环境对 PCM wav/flac 直读会产生重复/空输出（详见第 8 节），故全部音频先经
 ffmpeg 转 16 kHz 单声道 mp3 后提交——mp3 通路经同一内容对照验证输出正确，模型与权重未改动。
 
+`verify_result.json` 原文（`evidence/formal_asr/verify_result.json`，`verify_formal.py` 重跑可逐字节复现）：
+
+```json
+{
+ "missing": [],
+ "AISHELL-1 CER": {
+  "errors": 14,
+  "tokens": 1403,
+  "utterances": 100,
+  "rate": 1.0
+ },
+ "LibriSpeech WER": {
+  "errors": 78,
+  "tokens": 3917,
+  "utterances": 200,
+  "rate": 1.99
+ },
+ "LibriSpeech test-clean WER": {
+  "errors": 26,
+  "tokens": 2346,
+  "utterances": 100,
+  "rate": 1.11
+ },
+ "LibriSpeech test-other WER": {
+  "errors": 52,
+  "tokens": 1571,
+  "utterances": 100,
+  "rate": 3.31
+ }
+}
+```
+
+格式说明：T04 的评测器、数据集与判定口径随分题材料下发（模板允许表格列按实际指标调整），
+故本件 `verify_result.json` 为 CER/WER 打分原始输出（`rate` 为百分数），与 T01 的
+detail`{got/ref/worse/tol}` 基线容差格式不同；`missing: []` 表示 300 条全部有转写输出。
+
 ## 7. 性能参考
 
 官方写明「生成类与语音类的测法随分题材料下发」，T04 压测脚本未下发，因此这里给出**自定但可复现**的
@@ -178,6 +266,11 @@ bf16 与 fp16 数字完全一致，怀疑该版本 bf16 走了 fp16 通路，未
   解码路径问题。官方 300 条跑批因此统一先 `ffmpeg` 转 16 kHz 单声道 mp3 再提交
   （见 `evidence/formal_asr/run_asr.py`），mp3 通路输出经与参考文本对照验证正确，
   模型与权重未改动。
+- **打包布局说明**：`run_asr.py` / `verify_formal.py` 的路径常量已对齐本仓库布局
+  （条件清单 `formal/conditions/qwen3_asr.jsonl`、逐条输出 `evidence/formal_asr/outputs/`、
+  打分结果 `evidence/formal_asr/verify_result.json`），归一化与编辑距离判分算法未改，
+  本地重跑 `verify_formal.py` 与归档 `verify_result.json` 逐字节一致。300 条音频资产
+  未随仓库分发（分题材料原件，约数 GB），按条件清单相对路径备好 `data/` 后即可复现批跑。
 
 ---
 
@@ -191,6 +284,6 @@ bf16 与 fp16 数字完全一致，怀疑该版本 bf16 走了 fp16 通路，未
 | `smoke.sh` | 5 | 健康检查 + 中英转写 → `evidence/smoke.log` |
 | `verify.py` | 6 | 官方判分逻辑（`--selfcheck` 可用；缺基线文件时不臆造分数） |
 | `verify_formal.py` | 6 | 官方分题 300 条 CER/WER 打分 → `evidence/formal_asr/verify_result.json` |
-| `formal/` | 6 | 官方分题条件清单 `qwen3_asr.jsonl`（2026-10-30 下发原件） |
+| `formal/conditions/` | 6 | 官方分题条件清单 `qwen3_asr.jsonl`（2026-10-30 下发原件） |
 | `bench.sh` / `asr_bench.py` | 7 | ASR 并发吞吐 → `evidence/bench.txt` |
 | `evidence/` | — | 上述原始产物（`formal_asr/` 含 300 条逐条输出与官方反馈表） |

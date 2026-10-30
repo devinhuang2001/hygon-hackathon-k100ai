@@ -4,7 +4,7 @@ import json, os, re, sys
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 COND = os.path.join(BASE, "formal/conditions/qwen3_asr.jsonl")
-OUT = os.path.join(BASE, "outputs/qwen3_asr")
+OUT = os.path.join(BASE, "evidence", "formal_asr", "outputs")
 
 _PUNCT_ZH = re.compile(r"[，。！？；：、“”‘’（）…—\-\.,!?;:\"'()]+")
 _PUNCT_EN = re.compile(r"[^a-z0-9' ]+")
@@ -72,5 +72,5 @@ for lang, name in (("zh", "AISHELL-1 CER"), ("en", "LibriSpeech WER"), ("clean",
     e, t, n = stats[lang]
     res[name] = {"errors": e, "tokens": t, "utterances": n, "rate": round(e / t * 100, 2) if t else None}
 print(json.dumps(res, ensure_ascii=False, indent=1))
-with open(os.path.join(BASE, "outputs/qwen3_asr_accuracy.json"), "w", encoding="utf-8") as f:
+with open(os.path.join(BASE, "evidence", "formal_asr", "verify_result.json"), "w", encoding="utf-8") as f:
     json.dump(res, f, ensure_ascii=False, indent=1)

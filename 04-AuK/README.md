@@ -17,6 +17,22 @@ AuK 是腾讯混元开源的语音生成与编辑基础模型（扩散 Transform
 - 编码器权重：https://www.modelscope.cn/models/Qwen/Qwen2.5-Omni-3B
 - 提交仓库：https://github.com/devinhuang2001/hygon-hackathon-k100ai/tree/main/04-AuK
 
+参考文档：
+
+- AuK 官方源码与 README：https://github.com/Tencent-Hunyuan/AuK
+- MLLM 编码器 Qwen2.5-Omni-3B：https://www.modelscope.cn/models/Qwen/Qwen2.5-Omni-3B
+
+一键复现（T04 交付物按分题材料为「反馈表 + 环境说明 + 逐条 outputs」，故不设 env_check.sh / smoke.sh / verify.py / bench.sh）：
+
+```bash
+git clone https://github.com/devinhuang2001/hygon-hackathon-k100ai && cd hygon-hackathon-k100ai/04-AuK
+bash run.sh          # 装配依赖 + 批跑官方 120 条 → evidence/formal_auk/outputs/
+```
+
+前置（实例无外网，见 3.2/3.3）：预先按 manylinux2014_x86_64 + py3.10 拉 wheel 上传并
+`pip3 install --no-index --find-links` 安装；AuK 源码按 3.3 以 PYTHONPATH 引入。
+官方条件清单 `formal/auk.jsonl`（2026-10-30 下发原件）已在仓库内。
+
 ## 2. 验证环境
 
 | 项 | 值 |
@@ -30,6 +46,33 @@ AuK 是腾讯混元开源的语音生成与编辑基础模型（扩散 Transform
 | AuK 源码 | GitHub Tencent-Hunyuan/AuK 官方源码（未改动），`src/` 进 PYTHONPATH |
 | 模型路径 | AuK: `/root/hygon/models/auk`；编码器: `/root/hygon/models/qwen-omni` |
 | 推理方式 | `auk.infer.infer_auk.AukInfer` 直调（in-process），无 HTTP 服务 |
+
+环境自检（本件环境原文见 [`evidence/formal_auk/环境说明.txt`](evidence/formal_auk/环境说明.txt)，关键部分摘录）：
+
+```text
+设备信息：
+- Hygon K500SM_AI 64GB × 1（按赛事口径计 K100-AI），DTK 26.04，SCNet Notebook 容器
+
+框架及版本：
+- vLLM 0.21.0+das.dtk2604.torch2100.2606111143（vllm-hcu 0.21.0+das.dtk2604.2608251643），
+  镜像 harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10（解包 rootfs 方式运行）
+- AuK 使用 GitHub Tencent-Hunyuan/AuK 官方源码（未改动），transformers 5.5.0，torch 2.10.0+das.opt1.dtk2604
+```
+
+本件与 01/03 件为同一 K500 实例、同一镜像 rootfs；实例级 `env.log` 原文见 01 件
+`evidence/env.log`（python 3.10.21 / torch 2.10.0 / HIP 6.3.26113 / Device: K500SM_AI x 1）。
+
+超算互联网平台（参赛算力统一使用超算互联网，必填）：
+
+| 项 | 值 |
+| --- | --- |
+| 区域 | 待控制台补填（共享算力实例内 metadata 服务 100.100.100.200 不可达，读不到 region，不臆造；请在超算互联网控制台「实例详情」确认，如西南一区） |
+| Notebook 规格 | Hygon C86 7185 32 核 / 503 GB 内存；overlay 文件系统 1.8 TB（实测可用约 311 GB） |
+| 加速卡与显存 | K500SM_AI × 1（按赛事口径计 K100-AI）；64 GB |
+| 开发镜像 | `harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10`（Notebook 内解包 rootfs 使用） |
+| 模型获取方式 | AuK 权重取 GitHub 官方 release、编码器 Qwen2.5-Omni-3B 取 ModelScope，均 scp 上传实例 `/root/hygon/models/` |
+| 服务映射 | 无（in-process 批跑，无 HTTP 服务） |
+| 平台证据 | `platform/`：待补控制台截图（Notebook 创建页、实例详情、模型管理、服务映射）；实例侧环境说明见 `evidence/formal_auk/环境说明.txt` |
 
 ## 3. 适配优化方案
 
@@ -104,6 +147,28 @@ python3 run_auk.py          # 全量 120 条，逐条 [auk] OK <id>
 
 **关于音质指标（SIM / WER / MOS）：** 官方清单不附带评分脚本与参考打分（`expected.kind=audio` 仅约束
 格式与时长），本次按官方口径**只交原始输出、不自造分数**。克隆相似度等指标需官方评测方统一计算。
+
+批次汇总（按真实跑批清点，非官方评分——无分数类 verify_result.json）：
+
+```json
+{
+  "MODEL_ID": "Tencent-Hunyuan/AuK",
+  "CARD": "K100-AI (K500SM_AI 64GB)",
+  "FRAMEWORK": "AuK official source (AukInfer, in-process)",
+  "PRECISION": "bf16",
+  "batch": {
+    "conditions": "formal/auk.jsonl",
+    "total": 120,
+    "succeeded": 120,
+    "failed": 0,
+    "output": "24kHz mono wav, duration within expected.duration_min_s/max_s"
+  },
+  "metric": {"name": "SIM/WER/MOS", "value": null, "status": "待官方评测方统一计算"}
+}
+```
+
+反馈表（`evidence/formal_auk/反馈表-auk.csv`，120 行）列名：
+`condition_id,model,status,output_path,error,parameter_changes`。
 
 ## 7. 性能参考
 
