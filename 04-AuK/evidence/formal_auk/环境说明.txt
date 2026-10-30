@@ -1,0 +1,21 @@
+模型及权重版本：
+- Qwen/Qwen3-ASR-1.7B（ModelScope 本地目录，bf16，2 分片 4.4GB，sha256 校验通过）
+- Qwen/Qwen3-ForcedAligner-0.6B（ModelScope 本地目录，bf16，1.8GB）
+- Tencent-Hunyuan/AuK（auk_base.safetensors + vae.safetensors，官方 release）+ Qwen/Qwen2.5-Omni-3B（文本编码器，thinker 分片 + 官方 config/tokenizer）
+
+框架及版本：
+- vLLM 0.21.0+das.dtk2604.torch2100.2606111143（vllm-hcu 0.21.0+das.dtk2604.2608251643），镜像 harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10（解包 rootfs 方式运行）
+- AuK 使用 GitHub Tencent-Hunyuan/AuK 官方源码（未改动），transformers 5.5.0，torch 2.10.0+das.opt1.dtk2604
+- ForcedAligner 走 vLLM pooling（token_classify）路径，算法按官方 qwen_asr/inference/qwen3_forced_aligner.py 复刻（LIS 平滑一致）
+
+设备信息：
+- Hygon K500SM_AI 64GB × 1（按赛事口径计 K100-AI），DTK 26.04，SCNet Notebook 容器
+
+执行范围：
+- qwen3_asr.jsonl 全部 300 条（AISHELL-1 test 100 / LibriSpeech test-clean 100 / test-other 100），seed=42，识别文本按 condition_id 存 UTF-8 txt
+- forced_aligner.jsonl 全部 30 条（LibriSpeech test-clean），词级起止时间存 JSON，单位秒；清单标注 BOUNDARIES_PENDING，仅收集预测不计算边界准确率
+- auk.jsonl 全部 120 条（Seed-TTS eval zh/en 各 40 组 × seed 42/2026/1234），24kHz 单声道 wav
+
+其他如实说明：
+- ASR：服务端对 PCM wav/flac 直读会产生异常输出（重复/空文本），故全部音频先转 16kHz 单声道 mp3 再送 /v1/audio/transcriptions；同内容 mp3 与参考文本一致，判读为服务端音频解码路径问题，模型与权重未改动
+- AuK：torchaudio 2.10 的 load/save 依赖 TorchCodec，推理脚本中以 ffmpeg 等价实现替代（不影响模型计算）；输出时长均在清单期望区间内

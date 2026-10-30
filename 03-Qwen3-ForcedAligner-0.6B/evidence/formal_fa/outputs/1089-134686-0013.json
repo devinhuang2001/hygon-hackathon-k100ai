@@ -1,0 +1,132 @@
+{
+ "condition_id": "1089-134686-0013",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "IF",
+   "start": 0.56,
+   "end": 0.72
+  },
+  {
+   "text": "EVER",
+   "start": 0.72,
+   "end": 0.96
+  },
+  {
+   "text": "HE",
+   "start": 0.96,
+   "end": 1.12
+  },
+  {
+   "text": "WAS",
+   "start": 1.12,
+   "end": 1.36
+  },
+  {
+   "text": "IMPELLED",
+   "start": 1.36,
+   "end": 1.84
+  },
+  {
+   "text": "TO",
+   "start": 1.84,
+   "end": 1.84
+  },
+  {
+   "text": "CAST",
+   "start": 2.0,
+   "end": 2.4
+  },
+  {
+   "text": "SIN",
+   "start": 2.4,
+   "end": 2.72
+  },
+  {
+   "text": "FROM",
+   "start": 2.72,
+   "end": 3.04
+  },
+  {
+   "text": "HIM",
+   "start": 3.04,
+   "end": 3.28
+  },
+  {
+   "text": "AND",
+   "start": 3.28,
+   "end": 3.44
+  },
+  {
+   "text": "TO",
+   "start": 3.44,
+   "end": 3.52
+  },
+  {
+   "text": "REPENT",
+   "start": 3.52,
+   "end": 4.08
+  },
+  {
+   "text": "THE",
+   "start": 4.56,
+   "end": 4.72
+  },
+  {
+   "text": "IMPULSE",
+   "start": 4.72,
+   "end": 5.2
+  },
+  {
+   "text": "THAT",
+   "start": 5.2,
+   "end": 5.76
+  },
+  {
+   "text": "MOVED",
+   "start": 5.76,
+   "end": 5.76
+  },
+  {
+   "text": "HIM",
+   "start": 5.76,
+   "end": 6.0
+  },
+  {
+   "text": "WAS",
+   "start": 6.0,
+   "end": 6.16
+  },
+  {
+   "text": "THE",
+   "start": 6.16,
+   "end": 6.24
+  },
+  {
+   "text": "WISH",
+   "start": 6.24,
+   "end": 6.56
+  },
+  {
+   "text": "TO",
+   "start": 6.56,
+   "end": 6.64
+  },
+  {
+   "text": "BE",
+   "start": 6.64,
+   "end": 6.88
+  },
+  {
+   "text": "HER",
+   "start": 6.88,
+   "end": 7.04
+  },
+  {
+   "text": "KNIGHT",
+   "start": 7.04,
+   "end": 7.52
+  }
+ ]
+}

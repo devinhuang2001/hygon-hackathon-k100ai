@@ -1,0 +1,82 @@
+{
+ "condition_id": "1089-134686-0008",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "THE",
+   "start": 0.56,
+   "end": 0.64
+  },
+  {
+   "text": "CHAOS",
+   "start": 0.64,
+   "end": 1.2
+  },
+  {
+   "text": "IN",
+   "start": 1.2,
+   "end": 1.36
+  },
+  {
+   "text": "WHICH",
+   "start": 1.36,
+   "end": 1.6
+  },
+  {
+   "text": "HIS",
+   "start": 1.6,
+   "end": 1.76
+  },
+  {
+   "text": "ARDOUR",
+   "start": 1.76,
+   "end": 2.24
+  },
+  {
+   "text": "EXTINGUISHED",
+   "start": 2.24,
+   "end": 2.96
+  },
+  {
+   "text": "ITSELF",
+   "start": 2.96,
+   "end": 3.44
+  },
+  {
+   "text": "WAS",
+   "start": 3.44,
+   "end": 3.6
+  },
+  {
+   "text": "A",
+   "start": 3.6,
+   "end": 3.68
+  },
+  {
+   "text": "COLD",
+   "start": 3.76,
+   "end": 4.4
+  },
+  {
+   "text": "INDIFFERENT",
+   "start": 4.4,
+   "end": 5.12
+  },
+  {
+   "text": "KNOWLEDGE",
+   "start": 5.12,
+   "end": 5.12
+  },
+  {
+   "text": "OF",
+   "start": 5.76,
+   "end": 6.4
+  },
+  {
+   "text": "HIMSELF",
+   "start": 6.4,
+   "end": 6.4
+  }
+ ]
+}

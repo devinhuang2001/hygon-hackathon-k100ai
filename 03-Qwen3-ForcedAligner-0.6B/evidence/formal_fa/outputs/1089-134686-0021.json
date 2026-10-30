@@ -1,0 +1,92 @@
+{
+ "condition_id": "1089-134686-0021",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "IF",
+   "start": 0.32,
+   "end": 0.48
+  },
+  {
+   "text": "A",
+   "start": 0.48,
+   "end": 0.48
+  },
+  {
+   "text": "LAYMAN",
+   "start": 0.48,
+   "end": 0.96
+  },
+  {
+   "text": "IN",
+   "start": 1.2,
+   "end": 1.28
+  },
+  {
+   "text": "GIVING",
+   "start": 1.28,
+   "end": 1.6
+  },
+  {
+   "text": "BAPTISM",
+   "start": 1.6,
+   "end": 2.24
+  },
+  {
+   "text": "POUR",
+   "start": 2.32,
+   "end": 2.56
+  },
+  {
+   "text": "THE",
+   "start": 2.56,
+   "end": 2.64
+  },
+  {
+   "text": "WATER",
+   "start": 2.64,
+   "end": 3.12
+  },
+  {
+   "text": "BEFORE",
+   "start": 3.12,
+   "end": 3.52
+  },
+  {
+   "text": "SAYING",
+   "start": 3.52,
+   "end": 4.0
+  },
+  {
+   "text": "THE",
+   "start": 4.0,
+   "end": 4.08
+  },
+  {
+   "text": "WORDS",
+   "start": 4.08,
+   "end": 4.48
+  },
+  {
+   "text": "IS",
+   "start": 4.72,
+   "end": 4.96
+  },
+  {
+   "text": "THE",
+   "start": 4.96,
+   "end": 5.04
+  },
+  {
+   "text": "CHILD",
+   "start": 5.04,
+   "end": 5.52
+  },
+  {
+   "text": "BAPTIZED",
+   "start": 5.52,
+   "end": 6.24
+  }
+ ]
+}

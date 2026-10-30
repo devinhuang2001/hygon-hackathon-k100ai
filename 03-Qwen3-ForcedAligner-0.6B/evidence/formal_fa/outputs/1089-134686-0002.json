@@ -1,0 +1,97 @@
+{
+ "condition_id": "1089-134686-0002",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "AFTER",
+   "start": 0.4,
+   "end": 0.72
+  },
+  {
+   "text": "EARLY",
+   "start": 0.8,
+   "end": 1.04
+  },
+  {
+   "text": "NIGHTFALL",
+   "start": 1.04,
+   "end": 1.76
+  },
+  {
+   "text": "THE",
+   "start": 1.76,
+   "end": 1.92
+  },
+  {
+   "text": "YELLOW",
+   "start": 1.92,
+   "end": 2.16
+  },
+  {
+   "text": "LAMPS",
+   "start": 2.16,
+   "end": 2.64
+  },
+  {
+   "text": "WOULD",
+   "start": 2.64,
+   "end": 2.72
+  },
+  {
+   "text": "LIGHT",
+   "start": 2.72,
+   "end": 3.04
+  },
+  {
+   "text": "UP",
+   "start": 3.04,
+   "end": 3.12
+  },
+  {
+   "text": "HERE",
+   "start": 3.36,
+   "end": 3.52
+  },
+  {
+   "text": "AND",
+   "start": 3.52,
+   "end": 3.68
+  },
+  {
+   "text": "THERE",
+   "start": 3.68,
+   "end": 4.08
+  },
+  {
+   "text": "THE",
+   "start": 4.08,
+   "end": 4.24
+  },
+  {
+   "text": "SQUALID",
+   "start": 4.24,
+   "end": 4.8
+  },
+  {
+   "text": "QUARTER",
+   "start": 4.8,
+   "end": 5.28
+  },
+  {
+   "text": "OF",
+   "start": 5.28,
+   "end": 5.44
+  },
+  {
+   "text": "THE",
+   "start": 5.44,
+   "end": 5.52
+  },
+  {
+   "text": "BROTHELS",
+   "start": 5.52,
+   "end": 6.16
+  }
+ ]
+}

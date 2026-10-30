@@ -1,0 +1,147 @@
+{
+ "condition_id": "1089-134686-0000",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "HE",
+   "start": 0.48,
+   "end": 0.72
+  },
+  {
+   "text": "HOPED",
+   "start": 0.72,
+   "end": 1.04
+  },
+  {
+   "text": "THERE",
+   "start": 1.04,
+   "end": 1.12
+  },
+  {
+   "text": "WOULD",
+   "start": 1.12,
+   "end": 1.28
+  },
+  {
+   "text": "BE",
+   "start": 1.28,
+   "end": 1.28
+  },
+  {
+   "text": "STEW",
+   "start": 1.44,
+   "end": 1.84
+  },
+  {
+   "text": "FOR",
+   "start": 1.84,
+   "end": 2.0
+  },
+  {
+   "text": "DINNER",
+   "start": 2.0,
+   "end": 2.32
+  },
+  {
+   "text": "TURNIPS",
+   "start": 2.64,
+   "end": 3.04
+  },
+  {
+   "text": "AND",
+   "start": 3.04,
+   "end": 3.28
+  },
+  {
+   "text": "CARROTS",
+   "start": 3.28,
+   "end": 3.76
+  },
+  {
+   "text": "AND",
+   "start": 3.76,
+   "end": 4.0
+  },
+  {
+   "text": "BRUISED",
+   "start": 4.0,
+   "end": 4.72
+  },
+  {
+   "text": "POTATOES",
+   "start": 4.72,
+   "end": 4.72
+  },
+  {
+   "text": "AND",
+   "start": 5.04,
+   "end": 5.2
+  },
+  {
+   "text": "FAT",
+   "start": 5.2,
+   "end": 5.6
+  },
+  {
+   "text": "MUTTON",
+   "start": 5.6,
+   "end": 6.08
+  },
+  {
+   "text": "PIECES",
+   "start": 6.08,
+   "end": 6.56
+  },
+  {
+   "text": "TO",
+   "start": 6.56,
+   "end": 6.64
+  },
+  {
+   "text": "BE",
+   "start": 6.64,
+   "end": 6.8
+  },
+  {
+   "text": "LADLED",
+   "start": 6.8,
+   "end": 7.2
+  },
+  {
+   "text": "OUT",
+   "start": 7.2,
+   "end": 7.2
+  },
+  {
+   "text": "IN",
+   "start": 7.6,
+   "end": 7.68
+  },
+  {
+   "text": "THICK",
+   "start": 7.68,
+   "end": 8.16
+  },
+  {
+   "text": "PEPPERED",
+   "start": 8.24,
+   "end": 8.64
+  },
+  {
+   "text": "FLOUR",
+   "start": 8.64,
+   "end": 8.64
+  },
+  {
+   "text": "FATTENED",
+   "start": 9.44,
+   "end": 9.6
+  },
+  {
+   "text": "SAUCE",
+   "start": 9.6,
+   "end": 10.08
+  }
+ ]
+}

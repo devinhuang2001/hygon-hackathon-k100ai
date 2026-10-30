@@ -1,0 +1,117 @@
+{
+ "condition_id": "1089-134686-0005",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "THE",
+   "start": 0.4,
+   "end": 0.48
+  },
+  {
+   "text": "MUSIC",
+   "start": 0.48,
+   "end": 0.96
+  },
+  {
+   "text": "CAME",
+   "start": 0.96,
+   "end": 1.2
+  },
+  {
+   "text": "NEARER",
+   "start": 1.2,
+   "end": 1.68
+  },
+  {
+   "text": "AND",
+   "start": 1.68,
+   "end": 1.92
+  },
+  {
+   "text": "HE",
+   "start": 1.92,
+   "end": 2.16
+  },
+  {
+   "text": "RECALLED",
+   "start": 2.16,
+   "end": 2.56
+  },
+  {
+   "text": "THE",
+   "start": 2.56,
+   "end": 2.64
+  },
+  {
+   "text": "WORDS",
+   "start": 2.64,
+   "end": 3.2
+  },
+  {
+   "text": "THE",
+   "start": 3.6,
+   "end": 3.68
+  },
+  {
+   "text": "WORDS",
+   "start": 3.68,
+   "end": 4.08
+  },
+  {
+   "text": "OF",
+   "start": 4.08,
+   "end": 4.16
+  },
+  {
+   "text": "SHELLEY'S",
+   "start": 4.16,
+   "end": 4.72
+  },
+  {
+   "text": "FRAGMENT",
+   "start": 4.72,
+   "end": 5.28
+  },
+  {
+   "text": "UPON",
+   "start": 5.28,
+   "end": 5.6
+  },
+  {
+   "text": "THE",
+   "start": 5.6,
+   "end": 5.68
+  },
+  {
+   "text": "MOON",
+   "start": 5.68,
+   "end": 6.16
+  },
+  {
+   "text": "WANDERING",
+   "start": 6.16,
+   "end": 6.72
+  },
+  {
+   "text": "COMPANIONLESS",
+   "start": 6.72,
+   "end": 7.6
+  },
+  {
+   "text": "PALE",
+   "start": 7.92,
+   "end": 8.32
+  },
+  {
+   "text": "FOR",
+   "start": 8.32,
+   "end": 8.56
+  },
+  {
+   "text": "WEARINESS",
+   "start": 8.56,
+   "end": 9.28
+  }
+ ]
+}

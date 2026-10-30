@@ -1,0 +1,47 @@
+{
+ "condition_id": "1089-134686-0001",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "STUFF",
+   "start": 0.32,
+   "end": 0.8
+  },
+  {
+   "text": "IT",
+   "start": 0.8,
+   "end": 0.88
+  },
+  {
+   "text": "INTO",
+   "start": 0.88,
+   "end": 1.44
+  },
+  {
+   "text": "YOU",
+   "start": 1.44,
+   "end": 1.44
+  },
+  {
+   "text": "HIS",
+   "start": 1.6,
+   "end": 1.76
+  },
+  {
+   "text": "BELLY",
+   "start": 1.76,
+   "end": 2.16
+  },
+  {
+   "text": "COUNSELLED",
+   "start": 2.16,
+   "end": 2.8
+  },
+  {
+   "text": "HIM",
+   "start": 2.8,
+   "end": 2.88
+  }
+ ]
+}

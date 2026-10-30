@@ -1,0 +1,77 @@
+{
+ "condition_id": "1089-134686-0010",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "WELL",
+   "start": 0.56,
+   "end": 0.72
+  },
+  {
+   "text": "NOW",
+   "start": 0.72,
+   "end": 0.96
+  },
+  {
+   "text": "ENNIS",
+   "start": 0.96,
+   "end": 1.36
+  },
+  {
+   "text": "I",
+   "start": 1.44,
+   "end": 1.6
+  },
+  {
+   "text": "DECLARE",
+   "start": 1.6,
+   "end": 2.08
+  },
+  {
+   "text": "YOU",
+   "start": 2.08,
+   "end": 2.24
+  },
+  {
+   "text": "HAVE",
+   "start": 2.24,
+   "end": 2.4
+  },
+  {
+   "text": "A",
+   "start": 2.4,
+   "end": 2.48
+  },
+  {
+   "text": "HEAD",
+   "start": 2.48,
+   "end": 2.88
+  },
+  {
+   "text": "AND",
+   "start": 2.88,
+   "end": 3.12
+  },
+  {
+   "text": "SO",
+   "start": 3.12,
+   "end": 3.36
+  },
+  {
+   "text": "HAS",
+   "start": 3.36,
+   "end": 3.6
+  },
+  {
+   "text": "MY",
+   "start": 3.6,
+   "end": 3.76
+  },
+  {
+   "text": "STICK",
+   "start": 3.76,
+   "end": 4.24
+  }
+ ]
+}

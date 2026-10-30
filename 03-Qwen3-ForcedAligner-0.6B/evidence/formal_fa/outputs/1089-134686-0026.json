@@ -1,0 +1,72 @@
+{
+ "condition_id": "1089-134686-0026",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "THE",
+   "start": 0.56,
+   "end": 0.64
+  },
+  {
+   "text": "RECTOR",
+   "start": 0.64,
+   "end": 1.04
+  },
+  {
+   "text": "DID",
+   "start": 1.04,
+   "end": 1.2
+  },
+  {
+   "text": "NOT",
+   "start": 1.2,
+   "end": 1.44
+  },
+  {
+   "text": "ASK",
+   "start": 1.44,
+   "end": 1.76
+  },
+  {
+   "text": "FOR",
+   "start": 1.76,
+   "end": 1.92
+  },
+  {
+   "text": "A",
+   "start": 1.92,
+   "end": 1.92
+  },
+  {
+   "text": "CATECHISM",
+   "start": 1.92,
+   "end": 2.64
+  },
+  {
+   "text": "TO",
+   "start": 2.64,
+   "end": 2.72
+  },
+  {
+   "text": "HEAR",
+   "start": 2.72,
+   "end": 2.96
+  },
+  {
+   "text": "THE",
+   "start": 2.96,
+   "end": 3.04
+  },
+  {
+   "text": "LESSON",
+   "start": 3.04,
+   "end": 3.44
+  },
+  {
+   "text": "FROM",
+   "start": 3.44,
+   "end": 3.76
+  }
+ ]
+}

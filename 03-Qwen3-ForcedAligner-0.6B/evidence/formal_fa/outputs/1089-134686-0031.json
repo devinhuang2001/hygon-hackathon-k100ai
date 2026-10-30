@@ -1,0 +1,77 @@
+{
+ "condition_id": "1089-134686-0031",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "STEPHEN'S",
+   "start": 0.48,
+   "end": 1.12
+  },
+  {
+   "text": "HEART",
+   "start": 1.12,
+   "end": 1.44
+  },
+  {
+   "text": "BEGAN",
+   "start": 1.44,
+   "end": 2.0
+  },
+  {
+   "text": "SLOWLY",
+   "start": 2.0,
+   "end": 2.56
+  },
+  {
+   "text": "TO",
+   "start": 2.56,
+   "end": 2.72
+  },
+  {
+   "text": "FOLD",
+   "start": 2.72,
+   "end": 3.2
+  },
+  {
+   "text": "AND",
+   "start": 3.2,
+   "end": 3.44
+  },
+  {
+   "text": "FADE",
+   "start": 3.44,
+   "end": 3.92
+  },
+  {
+   "text": "WITH",
+   "start": 3.92,
+   "end": 4.08
+  },
+  {
+   "text": "FEAR",
+   "start": 4.08,
+   "end": 4.64
+  },
+  {
+   "text": "LIKE",
+   "start": 4.88,
+   "end": 5.04
+  },
+  {
+   "text": "A",
+   "start": 5.04,
+   "end": 5.12
+  },
+  {
+   "text": "WITHERING",
+   "start": 5.12,
+   "end": 5.6
+  },
+  {
+   "text": "FLOWER",
+   "start": 5.6,
+   "end": 6.08
+  }
+ ]
+}

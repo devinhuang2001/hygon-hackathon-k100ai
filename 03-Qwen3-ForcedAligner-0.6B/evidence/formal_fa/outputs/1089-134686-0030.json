@@ -1,0 +1,32 @@
+{
+ "condition_id": "1089-134686-0030",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "BEWARE",
+   "start": 0.32,
+   "end": 0.96
+  },
+  {
+   "text": "OF",
+   "start": 0.96,
+   "end": 1.12
+  },
+  {
+   "text": "MAKING",
+   "start": 1.12,
+   "end": 1.68
+  },
+  {
+   "text": "THAT",
+   "start": 1.68,
+   "end": 1.92
+  },
+  {
+   "text": "MISTAKE",
+   "start": 1.92,
+   "end": 2.56
+  }
+ ]
+}

@@ -1,0 +1,187 @@
+{
+ "condition_id": "1089-134686-0023",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "WHY",
+   "start": 0.4,
+   "end": 0.64
+  },
+  {
+   "text": "WAS",
+   "start": 0.64,
+   "end": 0.8
+  },
+  {
+   "text": "THE",
+   "start": 0.8,
+   "end": 0.88
+  },
+  {
+   "text": "SACRAMENT",
+   "start": 0.88,
+   "end": 1.6
+  },
+  {
+   "text": "OF",
+   "start": 1.6,
+   "end": 1.68
+  },
+  {
+   "text": "THE",
+   "start": 1.68,
+   "end": 1.76
+  },
+  {
+   "text": "EUCHARIST",
+   "start": 1.76,
+   "end": 2.4
+  },
+  {
+   "text": "INSTITUTED",
+   "start": 2.4,
+   "end": 3.2
+  },
+  {
+   "text": "UNDER",
+   "start": 3.2,
+   "end": 3.44
+  },
+  {
+   "text": "THE",
+   "start": 3.44,
+   "end": 3.52
+  },
+  {
+   "text": "TWO",
+   "start": 3.6,
+   "end": 3.84
+  },
+  {
+   "text": "SPECIES",
+   "start": 3.84,
+   "end": 4.4
+  },
+  {
+   "text": "OF",
+   "start": 4.4,
+   "end": 4.56
+  },
+  {
+   "text": "BREAD",
+   "start": 4.64,
+   "end": 4.88
+  },
+  {
+   "text": "AND",
+   "start": 4.88,
+   "end": 5.2
+  },
+  {
+   "text": "WINE",
+   "start": 5.2,
+   "end": 5.6
+  },
+  {
+   "text": "IF",
+   "start": 5.92,
+   "end": 6.08
+  },
+  {
+   "text": "JESUS",
+   "start": 6.08,
+   "end": 6.56
+  },
+  {
+   "text": "CHRIST",
+   "start": 6.56,
+   "end": 7.76
+  },
+  {
+   "text": "BE",
+   "start": 7.76,
+   "end": 8.08
+  },
+  {
+   "text": "PRESENT",
+   "start": 8.08,
+   "end": 8.08
+  },
+  {
+   "text": "BODY",
+   "start": 8.08,
+   "end": 8.08
+  },
+  {
+   "text": "AND",
+   "start": 8.08,
+   "end": 8.24
+  },
+  {
+   "text": "BLOOD",
+   "start": 8.24,
+   "end": 8.64
+  },
+  {
+   "text": "SOUL",
+   "start": 8.88,
+   "end": 9.44
+  },
+  {
+   "text": "AND",
+   "start": 9.44,
+   "end": 9.52
+  },
+  {
+   "text": "DIVINITY",
+   "start": 9.52,
+   "end": 10.24
+  },
+  {
+   "text": "IN",
+   "start": 10.4,
+   "end": 10.56
+  },
+  {
+   "text": "THE",
+   "start": 10.56,
+   "end": 10.64
+  },
+  {
+   "text": "BREAD",
+   "start": 10.64,
+   "end": 10.88
+  },
+  {
+   "text": "ALONE",
+   "start": 10.88,
+   "end": 11.52
+  },
+  {
+   "text": "AND",
+   "start": 11.52,
+   "end": 11.92
+  },
+  {
+   "text": "IN",
+   "start": 11.92,
+   "end": 12.0
+  },
+  {
+   "text": "THE",
+   "start": 12.0,
+   "end": 12.08
+  },
+  {
+   "text": "WINE",
+   "start": 12.08,
+   "end": 12.4
+  },
+  {
+   "text": "ALONE",
+   "start": 12.4,
+   "end": 12.88
+  }
+ ]
+}

@@ -1,0 +1,127 @@
+{
+ "condition_id": "1089-134686-0017",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "STEPHEN",
+   "start": 0.56,
+   "end": 1.04
+  },
+  {
+   "text": "LEANING",
+   "start": 1.44,
+   "end": 1.84
+  },
+  {
+   "text": "BACK",
+   "start": 1.84,
+   "end": 2.24
+  },
+  {
+   "text": "AND",
+   "start": 2.24,
+   "end": 2.4
+  },
+  {
+   "text": "DRAWING",
+   "start": 2.4,
+   "end": 2.8
+  },
+  {
+   "text": "IDLY",
+   "start": 2.8,
+   "end": 3.2
+  },
+  {
+   "text": "ON",
+   "start": 3.28,
+   "end": 3.44
+  },
+  {
+   "text": "HIS",
+   "start": 3.44,
+   "end": 3.6
+  },
+  {
+   "text": "SCRIBBLER",
+   "start": 3.6,
+   "end": 4.08
+  },
+  {
+   "text": "LISTENED",
+   "start": 4.48,
+   "end": 4.96
+  },
+  {
+   "text": "TO",
+   "start": 4.96,
+   "end": 5.04
+  },
+  {
+   "text": "THE",
+   "start": 5.04,
+   "end": 5.2
+  },
+  {
+   "text": "TALK",
+   "start": 5.2,
+   "end": 5.52
+  },
+  {
+   "text": "ABOUT",
+   "start": 5.52,
+   "end": 5.84
+  },
+  {
+   "text": "HIM",
+   "start": 5.84,
+   "end": 6.16
+  },
+  {
+   "text": "WHICH",
+   "start": 6.16,
+   "end": 6.4
+  },
+  {
+   "text": "HERON",
+   "start": 6.4,
+   "end": 6.8
+  },
+  {
+   "text": "CHECKED",
+   "start": 6.8,
+   "end": 7.2
+  },
+  {
+   "text": "FROM",
+   "start": 7.2,
+   "end": 7.36
+  },
+  {
+   "text": "TIME",
+   "start": 7.36,
+   "end": 7.68
+  },
+  {
+   "text": "TO",
+   "start": 7.68,
+   "end": 7.76
+  },
+  {
+   "text": "TIME",
+   "start": 7.76,
+   "end": 8.08
+  },
+  {
+   "text": "BY",
+   "start": 8.08,
+   "end": 8.72
+  },
+  {
+   "text": "SAYING",
+   "start": 8.72,
+   "end": 8.72
+  }
+ ]
+}

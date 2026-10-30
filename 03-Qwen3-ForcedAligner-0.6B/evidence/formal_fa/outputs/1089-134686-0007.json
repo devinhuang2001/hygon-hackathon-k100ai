@@ -1,0 +1,47 @@
+{
+ "condition_id": "1089-134686-0007",
+ "language": "English",
+ "unit": "seconds",
+ "words": [
+  {
+   "text": "A",
+   "start": 0.56,
+   "end": 0.64
+  },
+  {
+   "text": "COLD",
+   "start": 0.64,
+   "end": 1.12
+  },
+  {
+   "text": "LUCID",
+   "start": 1.2,
+   "end": 1.84
+  },
+  {
+   "text": "INDIFFERENCE",
+   "start": 1.84,
+   "end": 2.64
+  },
+  {
+   "text": "REIGNED",
+   "start": 2.64,
+   "end": 3.12
+  },
+  {
+   "text": "IN",
+   "start": 3.12,
+   "end": 3.28
+  },
+  {
+   "text": "HIS",
+   "start": 3.28,
+   "end": 3.44
+  },
+  {
+   "text": "SOUL",
+   "start": 3.44,
+   "end": 3.92
+  }
+ ]
+}
