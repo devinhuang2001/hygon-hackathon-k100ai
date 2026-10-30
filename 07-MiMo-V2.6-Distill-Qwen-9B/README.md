@@ -15,6 +15,7 @@ MiMo-V2.6-Distill-Qwen-9B 是小米 MiMo 的 9B 蒸馏模型，基于 Qwen3.5 �
 
 - 权重：https://www.modelscope.cn/models/XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B
 - 镜像：`harbor.sourcefind.cn:5443/hcu/admin/base/vllm:0.21.0-ubuntu22.04-dtk2604-py3.10`
+- 提交仓库：https://github.com/devinhuang2001/hygon-hackathon-k100ai/tree/main/07-MiMo-V2.6-Distill-Qwen-9B
 
 ## 2. 验证环境
 
