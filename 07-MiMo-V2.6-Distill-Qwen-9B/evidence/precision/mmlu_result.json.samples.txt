@@ -1,0 +1,16 @@
+gold=B pred=B ok=True
+  out_tail='B'
+gold=C pred=D ok=False
+  out_tail='The order of $p$ is 12, so $|\\langle p \\rangle| = 12$. The index is $120/'
+gold=D pred=D ok=True
+  out_tail='D'
+gold=B pred=B ok=True
+  out_tail='B'
+gold=B pred=B ok=True
+  out_tail='B'
+gold=A pred=A ok=True
+  out_tail='A'
+gold=B pred=A ok=False
+  out_tail='A'
+gold=A pred=A ok=True
+  out_tail='A'

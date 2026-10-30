@@ -1,0 +1,20 @@
+{
+  "model": "mimo-v2.6-9b",
+  "dataset": "mmlu",
+  "n": 285,
+  "correct": 225,
+  "accuracy": 0.7895,
+  "stderr": 0.0241,
+  "elapsed_s": 17.7,
+  "config": {
+    "temperature": 0,
+    "shots": 0,
+    "max_tokens": 32,
+    "enable_thinking": false,
+    "conc": 24,
+    "per_subject": 5,
+    "source": "mmlu_test.parquet"
+  },
+  "baseline": null,
+  "note": "官方 baselines/<模型>.json 未随分题材料下发，此处为公开数据集上的绝对精度；拿到官方基线文件后按同一配置复跑即可计算劣化幅度。"
+}

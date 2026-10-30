@@ -78,20 +78,54 @@ data: [DONE]
 
 ## 6. 精度测评
 
-**未完成 —— 缺官方输入。** 需要 `baselines/<模型>.json`（写死子集题数、max_tokens、思考开关与 GPU 基线分）
-与 `data/` 子集，随分题材料下发，本仓库未持有。`verify.py` 已实现官方判分逻辑（容差 2%、只罚劣化、
-`--selfcheck` 通过）。按红线不臆造分数。
+### 6.1 官方口径：未完成 —— 缺官方输入
+
+赛事要求 `verify.py` 按官方 `baselines/<模型>.json`（写死子集题数、max_tokens、思考开关与**官方 GPU 基线分**）
+现场跑分并输出 `verify_result.json`。该基线文件与 `data/` 评测子集**随分题材料下发，本仓库未持有**：
+
+- 飞书知识空间节点 `131006` 返回 `permission_denied`（该节点所属空间未授权）
+- 文档搜索 `分题材料 / baselines / gsm8k.jsonl` 均 0 命中；「分题材料」表只有 T01–T04 四行分类，无附件
+- 实例与共享盘全盘 `find` 无 `baselines/`、无评测子集
+
+因此**与官方 GPU 基线比较的劣化幅度无法计算**。按赛事红线（伪造日志取消资格），不填任何推测分数。
+
+### 6.2 自测绝对精度（公开数据集，配置写死）
+
+为不让本节空白，用公开数据集与写死配置在本卡上实跑，给出**绝对分**供验收方比对。
+脚本 [`precision.py`](precision.py)，判分口径与 `verify.py` 一致（greedy、关思考、固定 max_tokens）：
+
+| 数据集 | 样本数 | 配置 | 正确 | 得分 | 二项标准误 | 耗时 |
+| --- | --- | --- | --- | --- | --- | --- |
+| GSM8K test | 1319（全量） | 5-shot、greedy、max_tokens 512 | 1151 | **87.26%** | ±0.92 | 833 s |
+| MMLU test | 285（57 科 × 5 题） | 0-shot、greedy、max_tokens 32 | 225 | **78.95%** | ±2.41 | 18 s |
+
+- 原始结果：[`evidence/precision/gsm8k_result.json`](evidence/precision/gsm8k_result.json)、
+  [`evidence/precision/mmlu_result.json`](evidence/precision/mmlu_result.json)；
+  各抽 8 条带原样的核对样本在 `*.samples.txt`（GSM8K 输出为带 `####` 的完整 CoT，判分未被格式污染）。
+- 数据集来源与指纹（`data/README.md`）：GSM8K 取自 openai/grade-school-math（test 1319 /
+  train 前 5 条作 exemplar），MMLU 取自 cais/mmlu `all/test` 每科取 5 题。
+- **口径提醒**：同一模型 0-shot、不加 CoT 提示时 GSM8K 只有 17.06%（早期试跑，未留 json），
+  说明 GSM8K 对 few-shot 口径极敏感；若官方基线的 shot 数不同，本节分数不能直接对比，
+  拿到 `baselines/<模型>.json` 后按它的 `shots`/`max_tokens`/思考开关复跑即可。
+
 
 ## 7. 性能参考
 
-**只跑了 4K 输入 × 1K 输出 × 并发 1 / 8 两档**，每档 2 轮取第 2 轮。9B 混合结构下 4K c=1 单轮已需
-355 s，16K 与 c=64 未跑（按比例外推需数倍时间）。客户端 `vllm bench serve`、
-`--random-range-ratio 0.99`、`--ignore-eos`。原始数据见 [`evidence/bench/`](evidence/bench/)。
+**只取得 4K 输入 × 1K 输出 × 并发 1 / 8 两档**，每档 2 轮取第 2 轮。9B 混合结构下 4K c=1 单轮已需
+355 s。客户端 `vllm bench serve`、`--random-range-ratio 0.99`、`--ignore-eos`。
+原始数据见 [`evidence/bench/`](evidence/bench/) 与 [`evidence/bench16k/`](evidence/bench16k/)。
 
 | 输入长度 | 并发 | 完成 | 耗时 s | 请求吞吐 | 输出吞吐 tok/s | 均值 TTFT ms | P99 TTFT ms | 均值 TPOT ms |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | 4096 | 1 | 8 | 354.8 | 0.02 | 20.92 | 1964 | 3142 | 45.7 |
 | 4096 | 8 | 16 | 174.5 | 0.09 | 90.37 | 5749 | 15236 | 74.4 |
+
+**16K 档实测失败，如实记录**（未用外推值填充）：
+
+- `16K × c=1`：单轮 900 s 硬超时（8 请求 × 16K 输入 ≈ 131 K prefill token），两轮均被 `timeout` 杀掉。
+- `16K × c=8`：客户端启动即 `ConnectionRefusedError 127.0.0.1:8000`，`completed=0 / failed=16` ——
+  服务在上一条超时的长上下文压测之后已退出。日志与 json 均留在 `evidence/bench16k/`。
+- 结论：单卡 64 GB 跑 9B 混合结构模型，16K 全档需要更长时限或更小批量，本轮未取得可用数据。
 
 ## 8. 注意事项
 

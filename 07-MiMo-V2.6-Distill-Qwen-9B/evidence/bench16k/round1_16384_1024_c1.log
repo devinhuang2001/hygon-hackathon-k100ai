@@ -1,0 +1,4 @@
+INFO 10-30 13:36:52 [__init__.py:44] Available plugins for group vllm.platform_plugins:
+INFO 10-30 13:36:52 [__init__.py:46] - hcu -> vllm_hcu:hcu_platform_plugin
+INFO 10-30 13:36:52 [__init__.py:49] All plugins in this group will be loaded. Set `VLLM_PLUGINS` to control which plugins to load.
+INFO 10-30 13:36:52 [__init__.py:238] Platform plugin hcu is activated
