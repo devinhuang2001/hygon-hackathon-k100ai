@@ -1,0 +1,11 @@
+== /health
+HTTP 200
+== /v1/models
+{"object":"list","data":[{"id":"qwen3-asr-1.7b","object":"model","created":1793299906,"owned_by":"vllm","root":"/root/hygon/models/asr_orig","parent":null,"max_model_len":32768,"permission":[{"id":"modelperm-83478ad3f9fd6006","object":"model_permission","created":1793299906,"allow_create_engine":fal
+== ASR 中文 (zh.mp3)
+{"text":"開放時間：早上九點至下午五點。","usage":{"type":"duration","seconds":6}}
+== ASR 英文 (en.mp3)
+{"text":"The tribal chief then called for the boy, and presented him with fifty pieces of gold.","usage":{"type":"duration","seconds":8}}
+== 纯文本问答 (无音频，仅验接口)
+{"id":"cmpl-9e1b3966c9662fbc","object":"text_completion","created":1793299907,"prompt_routed_experts":null,"model":"qwen3-asr-1.7b","choices":[{"index":0,"text":"，我是小红书博主，我","logpr
+== 完成

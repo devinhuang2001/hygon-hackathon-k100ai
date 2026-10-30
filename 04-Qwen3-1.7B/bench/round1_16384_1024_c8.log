@@ -1,0 +1,51 @@
+INFO 10-30 10:28:40 [__init__.py:44] Available plugins for group vllm.platform_plugins:
+INFO 10-30 10:28:40 [__init__.py:46] - hcu -> vllm_hcu:hcu_platform_plugin
+INFO 10-30 10:28:40 [__init__.py:49] All plugins in this group will be loaded. Set `VLLM_PLUGINS` to control which plugins to load.
+INFO 10-30 10:28:40 [__init__.py:238] Platform plugin hcu is activated
+WARNING 10-30 10:29:04 [registry.py:960] Model architecture DeepseekV3ForCausalLM is already registered, and will be overwritten by the new model class vllm_hcu.models.deepseek_v2:DeepseekV3ForCausalLM.
+WARNING 10-30 10:29:04 [registry.py:960] Model architecture DeepseekV32ForCausalLM is already registered, and will be overwritten by the new model class vllm_hcu.models.deepseek_v2:DeepseekV3ForCausalLM.
+WARNING 10-30 10:29:04 [registry.py:960] Model architecture DeepSeekMTPModel is already registered, and will be overwritten by the new model class vllm_hcu.models.deepseek_mtp:DeepSeekMTP.
+WARNING 10-30 10:29:04 [registry.py:960] Model architecture DeepseekV4ForCausalLM is already registered, and will be overwritten by the new model class vllm_hcu.models.deepseek_v4:DeepseekV4ForCausalLM.
+WARNING 10-30 10:29:04 [registry.py:960] Model architecture DeepSeekV4MTPModel is already registered, and will be overwritten by the new model class vllm_hcu.models.deepseek_v4_mtp:DeepSeekV4MTP.
+WARNING 10-30 10:29:04 [registry.py:960] Model architecture GlmMoeDsaForCausalLM is already registered, and will be overwritten by the new model class vllm_hcu.models.deepseek_v2:GlmMoeDsaForCausalLM.
+WARNING 10-30 10:29:04 [registry.py:960] Model architecture Glm4MoeForCausalLM is already registered, and will be overwritten by the new model class vllm_hcu.models.glm4_moe:Glm4MoeForCausalLM.
+WARNING 10-30 10:29:04 [registry.py:960] Model architecture Glm4MoeMTPModel is already registered, and will be overwritten by the new model class vllm_hcu.models.glm4_moe_mtp:Glm4MoeMTP.
+WARNING 10-30 10:29:04 [registry.py:960] Model architecture HYV3ForCausalLM is already registered, and will be overwritten by the new model class vllm_hcu.models.hy_v3:HYV3ForCausalLM.
+WARNING 10-30 10:29:04 [registry.py:960] Model architecture HYV3MTPModel is already registered, and will be overwritten by the new model class vllm_hcu.models.hy_v3_mtp:HYV3MTP.
+[aiter] WARNING: NUMA balancing is enabled, which may cause errors. It is recommended to disable NUMA balancing by running "sudo sh -c 'echo 0 > /proc/sys/kernel/numa_balancing'" 
+Namespace(subparser='bench', bench_type='serve', dispatch_function=<function BenchmarkServingSubcommand.cmd at 0x7f13a62d8d30>, trust_remote_code=False, seed=1, num_prompts=16, dataset_name='random', no_stream=False, dataset_path=None, no_oversample=False, skip_chat_template=False, enable_multimodal_chat=False, disable_shuffle=False, custom_output_len=256, spec_bench_output_len=256, spec_bench_category=None, sonnet_input_len=550, sonnet_output_len=150, sonnet_prefix_len=200, sharegpt_output_len=None, blazedit_min_distance=0.0, blazedit_max_distance=1.0, asr_max_audio_len_sec=inf, asr_min_audio_len_sec=0.0, random_input_len=16384, random_output_len=1024, random_range_ratio='0.99', random_prefix_len=0, random_batch_size=1, no_reranker=False, random_mm_base_items_per_request=1, random_mm_num_mm_items_range_ratio=0.0, random_mm_limit_mm_per_prompt={'image': 255, 'video': 1}, random_mm_bucket_config={(256, 256, 1): 0.5, (720, 1280, 1): 0.5, (720, 1280, 16): 0.0}, hf_subset=None, hf_split=None, hf_name=None, hf_output_len=None, prefix_repetition_prefix_len=256, prefix_repetition_suffix_len=256, prefix_repetition_num_prefixes=10, prefix_repetition_output_len=128, speed_bench_dataset_subset='qualitative', speed_bench_output_len=4096, speed_bench_category=None, label=None, backend='openai', base_url=None, host='127.0.0.1', port=8000, endpoint='/v1/completions', header=None, max_concurrency=8, model='qwen3-1.7b', input_len=None, output_len=None, tokenizer='/root/public_data/model/admin/Qwen/Qwen3-1.7B', tokenizer_mode='auto', use_beam_search=False, logprobs=None, request_rate=inf, burstiness=1.0, disable_tqdm=False, num_warmups=0, profile=False, save_result=True, save_detailed=False, append_result=False, metadata=None, result_dir='/root/hygon/runs/qwen3-1.7b/bench', result_filename='round1_16384_1024_c8.json', ignore_eos=True, percentile_metrics=None, metric_percentiles='99', goodput=None, request_id_prefix='bench-59e5e3be-', top_p=None, top_k=None, min_p=None, temperature=None, frequency_penalty=None, presence_penalty=None, repetition_penalty=None, served_model_name=None, lora_modules=None, lora_assignment='random', ramp_up_strategy=None, ramp_up_start_rps=None, ramp_up_end_rps=None, ready_check_timeout_sec=0, extra_body=None, skip_tokenizer_init=False, insecure=False, plot_timeline=False, timeline_itl_thresholds='25,50', plot_dataset_stats=False)
+INFO 10-30 10:29:13 [utils.py:90] Sampling input_len from [163, 32605] and output_len from [10, 2038]
+WARNING: vllm bench serve no longer sets temperature==0 (greedy) in requests by default. The default will be determined on the server side and can be model/API specific. For the old behavior, include --temperature=0.
+Starting initial single prompt test run...
+Skipping endpoint ready check.
+Starting main benchmark run...
+Traffic request rate: inf
+Burstiness factor: 1.0 (Poisson process)
+Maximum request concurrency: 8
+  0%|          | 0/16 [00:00<?, ?it/s]  6%|▋         | 1/16 [00:26<06:42, 26.84s/it] 12%|█▎        | 2/16 [00:33<03:28, 14.90s/it] 19%|█▉        | 3/16 [01:08<05:11, 23.93s/it] 25%|██▌       | 4/16 [01:27<04:27, 22.31s/it] 31%|███▏      | 5/16 [01:30<02:47, 15.20s/it] 38%|███▊      | 6/16 [01:38<02:09, 12.90s/it] 44%|████▍     | 7/16 [01:48<01:47, 11.94s/it] 50%|█████     | 8/16 [01:56<01:24, 10.61s/it] 56%|█████▋    | 9/16 [02:05<01:11, 10.17s/it] 62%|██████▎   | 10/16 [02:08<00:46,  7.73s/it] 69%|██████▉   | 11/16 [02:08<00:28,  5.60s/it] 75%|███████▌  | 12/16 [02:09<00:16,  4.10s/it] 81%|████████▏ | 13/16 [02:11<00:10,  3.39s/it] 88%|████████▊ | 14/16 [02:15<00:07,  3.65s/it] 94%|█████████▍| 15/16 [02:28<00:06,  6.33s/it]100%|██████████| 16/16 [02:33<00:00,  5.90s/it]100%|██████████| 16/16 [02:33<00:00,  9.56s/it]
+tip: install termplotlib and gnuplot to plot the metrics
+============ Serving Benchmark Result ============
+Successful requests:                     16        
+Failed requests:                         0         
+Maximum request concurrency:             8         
+Benchmark duration (s):                  153.01    
+Total input tokens:                      270633    
+Total generated tokens:                  15766     
+Request throughput (req/s):              0.10      
+Output token throughput (tok/s):         103.04    
+Peak output token throughput (tok/s):    176.00    
+Peak concurrent requests:                9.00      
+Total token throughput (tok/s):          1871.81   
+---------------Time to First Token----------------
+Mean TTFT (ms):                          7379.75   
+Median TTFT (ms):                        5157.68   
+P99 TTFT (ms):                           24004.85  
+-----Time per Output Token (excl. 1st token)------
+Mean TPOT (ms):                          76.07     
+Median TPOT (ms):                        62.82     
+P99 TPOT (ms):                           235.05    
+---------------Inter-token Latency----------------
+Mean ITL (ms):                           61.10     
+Median ITL (ms):                         49.15     
+P99 ITL (ms):                            486.59    
+==================================================

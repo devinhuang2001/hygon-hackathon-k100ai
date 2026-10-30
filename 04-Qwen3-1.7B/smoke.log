@@ -1,0 +1,17 @@
+== /health
+HTTP 200
+== /v1/models
+{"object":"list","data":[{"id":"qwen3-1.7b","object":"model","created":1793326357,"owned_by":"vllm","root":"/root/public_data/model/admin/Qwen/Qwen3-1.7B","parent":null,"max_model_len":32768,"permissi
+== 单轮(关闭思考)
+'国产异构加速器是一种结合多种计算架构（如CPU、GPU、FPGA、ASIC等）的高性能计算设备，旨在提升不同任务的处理效率和能效比。'
+finish: stop tokens: 40
+== 多轮(关闭思考)
+'你好，我是小助手，一个AI助手。我叫小海，但其实我是由很多不同的AI模型组成的，每个模型都有自己的名字。不过，我通常会以“小海”这个名字来称呼自己，这样听起来更亲切一些。如果你有任何问题或需要帮助，随时可以告诉我！'
+finish: stop tokens: 64
+== 算术(关闭思考)
+'221'
+finish: stop tokens: 4
+== 流式
+
+data: [DONE]
+

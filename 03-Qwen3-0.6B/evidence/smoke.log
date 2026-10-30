@@ -1,0 +1,17 @@
+== /health
+HTTP 200
+== /v1/models
+{"object":"list","data":[{"id":"qwen3-0.6b","object":"model","created":1793306279,"owned_by":"vllm","root":"/root/public_data/model/admin/Qwen/Qwen3-0.6B","parent":null,"max_model_len":32768,"permissi
+== 单轮(关闭思考)
+'国产异构加速器是一种结合了CPU和GPU的新型计算架构，广泛应用于人工智能、高性能计算等领域。'
+finish: stop tokens: 25
+== 多轮(关闭思考)
+'你好，我是小海。'
+finish: stop tokens: 7
+== 算术(关闭思考)
+'13 × 17 = 221'
+finish: stop tokens: 12
+== 流式
+
+data: [DONE]
+

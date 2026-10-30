@@ -1,0 +1,17 @@
+== /health
+HTTP 200
+== /v1/models
+{"object":"list","data":[{"id":"qwen3-4b","object":"model","created":1793327964,"owned_by":"vllm","root":"/root/public_data/model/admin/Qwen/Qwen3-4B","parent":null,"max_model_len":32768,"permission":
+== 单轮(关闭思考)
+'国产异构加速器是指由中国自主研发的、用于提升计算性能的非统一架构处理器，能够高效处理并行计算任务，广泛应用于人工智能、大数据、高性能计算等领域。'
+finish: stop tokens: 39
+== 多轮(关闭思考)
+'我叫小海！很高兴认识你！有什么我可以帮你的吗？😊'
+finish: stop tokens: 17
+== 算术(关闭思考)
+'221'
+finish: stop tokens: 4
+== 流式
+
+data: [DONE]
+

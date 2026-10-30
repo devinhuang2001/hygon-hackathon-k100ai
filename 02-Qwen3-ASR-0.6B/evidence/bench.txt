@@ -1,0 +1,3 @@
+conc=  1 reqs=  63 ok=  63 wall=  11.34s audio=  420.0s RTF= 0.027x  speed= 37.04 audio-s/s  qps= 5.56
+conc=  8 reqs=  48 ok=  48 wall=   2.51s audio=  320.0s RTF= 0.008x  speed=127.26 audio-s/s  qps=19.09
+conc= 32 reqs=  96 ok=  96 wall=   2.84s audio=  640.0s RTF= 0.004x  speed=225.05 audio-s/s  qps=33.76
