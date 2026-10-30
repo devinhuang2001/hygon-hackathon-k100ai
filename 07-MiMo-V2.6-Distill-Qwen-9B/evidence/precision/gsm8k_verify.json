@@ -1,20 +1,14 @@
 {
   "model": "mimo-v2.6-9b",
+  "model_id": "XiaomiMiMo/MiMo-V2.6-Distill-Qwen-9B",
   "dataset": "gsm8k",
   "n": 1319,
-  "correct": 1151,
-  "accuracy": 0.8726,
-  "stderr": 0.0092,
-  "elapsed_s": 833.3,
-  "config": {
-    "temperature": 0,
-    "shots": 5,
-    "max_tokens": 512,
-    "enable_thinking": false,
-    "conc": 24,
-    "per_subject": null,
-    "source": "gsm8k_test.jsonl"
-  },
+  "correct": 1164,
+  "accuracy": 0.8825,
+  "stderr": 0.0089,
+  "elapsed_s": 908.4,
+  "mode": "abs",
+  "verdict": null,
   "baseline": null,
   "note": "官方 baselines/<模型>.json 未随分题材料下发，此处为公开数据集上的绝对精度；拿到官方基线文件后按同一配置复跑即可计算劣化幅度。"
 }

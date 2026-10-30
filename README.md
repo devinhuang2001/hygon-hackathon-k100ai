@@ -13,7 +13,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | [01](01-Qwen3-ASR-1.7B/README.md) | **Qwen3-ASR-1.7B** | **T04 语音识别（计件）** | vLLM 0.21.0+das | K100-AI | ✅ | ✅ 中英转写逐字正确 | ✅ 3 档并发：21.97 → 208.23 audio-s/s | ⏳ 待官方基线 |
 | [02](02-Qwen3-ASR-0.6B/README.md) | **Qwen3-ASR-0.6B** | **T04 语音识别（计件）** | vLLM 0.21.0+das | K100-AI | ✅ | ✅ 中英转写逐字正确 | ✅ 3 档并发：37.04 → 225.05 audio-s/s | ⏳ 待官方基线 |
-| [07](07-MiMo-V2.6-Distill-Qwen-9B/README.md) | **MiMo-V2.6-Distill-Qwen-9B** | **T01 文本 LLM（计件）** | vLLM 0.21.0+das | K100-AI | ✅ | ✅ 单轮/多轮/算术/流式 | ✅ 4K×1、4K×8：20.92 / 90.37 tok/s | ✅ 自测 GSM8K 87.26% / MMLU 78.95% |
+| [07](07-MiMo-V2.6-Distill-Qwen-9B/README.md) | **MiMo-V2.6-Distill-Qwen-9B** | **T01 文本 LLM（计件）** | vLLM 0.21.0+das | K100-AI | ✅ | ✅ 单轮/多轮/算术/流式 | ✅ 4K×1、4K×8：20.92 / 90.37 tok/s | ✅ `verify.py --abs` GSM8K 88.25% / MMLU 78.95% |
 
 另有 4 个非赛题模型（`03`–`06`，见下表），作为同卡型、同框架下的横向性能参照一并存放，
 可用于后续按同一负载复测对比，不计件。
@@ -99,10 +99,11 @@ bash bench.sh        # 性能 6 档 × 2 轮 → bench/
 `verify.py` 已实现官方判分逻辑并支持 `--selfcheck`；把官方 `baselines/<模型>.json` 与
 `data/` 放入对应目录后执行 `source env.sh && python verify.py` 即可产出 `verify_result.json`。
 
-例外是 **07（T01 MiMo-9B）**：该赛道门槛点名的 GSM8K / MMLU 有公开数据集，因此用写死配置
-实跑了绝对分 —— GSM8K test 全量 5-shot **87.26%**（1151/1319，±0.92）、MMLU test 每科 5 题
-**78.95%**（225/285，±2.41），脚本 `07-MiMo-V2.6-Distill-Qwen-9B/precision.py`，原始结果在
-`evidence/precision/`。**这只是绝对分**：官方 GPU 基线文件仍未下发，劣化幅度依旧算不出来。
+例外是 **07（T01 MiMo-9B）**：该赛道门槛点名的 GSM8K / MMLU 有公开数据集，因此用 `verify.py --abs`
+（同一套推理与判分代码，只跳过基线比对）实跑了绝对分 —— GSM8K test 全量 5-shot **88.25%**
+（1164/1319，±0.89）、MMLU test 每科 5 题 **78.95%**（225/285，±2.41），原始结果在
+`evidence/precision/`（`gsm8k_verify.json` / `mmlu_verify.json` / `verify.log`）。
+**这只是绝对分**：官方 GPU 基线文件仍未下发，劣化幅度依旧算不出来。
 
 ## 七、声明
 

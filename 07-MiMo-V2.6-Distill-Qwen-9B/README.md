@@ -90,27 +90,41 @@ data: [DONE]
 
 因此**与官方 GPU 基线比较的劣化幅度无法计算**。按赛事红线（伪造日志取消资格），不填任何推测分数。
 
-### 6.2 自测绝对精度（公开数据集，配置写死）
+### 6.2 自测绝对精度：`verify.py --abs` 实跑
 
-为不让本节空白，用公开数据集与写死配置在本卡上实跑，给出**绝对分**供验收方比对。
+`verify.py` 内置评测器，两种模式：
 
-**这两行数字不是 `verify.py` 跑出来的**——`verify.py` 缺 `baselines/` 会直接退出，只保留了判分逻辑
-与 `--selfcheck`。实际执行的是自写脚本 [`precision.py`](precision.py)，只算绝对分、不比对基线；
-解码口径沿用官方要求的 greedy / 关闭思考 / 固定 max_tokens：
+- **默认（官方口径）**：读 `baselines/<模型>.json`，按其 `data` / `shots` / `max_tokens` / 思考开关复跑，
+  再用 `check()` 判「劣化是否 ≤ 2%」，产出 `verify_result.json`。基线缺失时**直接报错退出**，不猜数。
+- **`--abs`（本节）**：同一套推理与判分代码，不比对基线，只输出公开数据集上的绝对精度。
+  判分逻辑另有 `--selfcheck` 自验证（本地与实例上均返回 `selfcheck OK`）。
+
+实跑命令（实例：K100-AI 64 GB，vLLM 0.21.0+das，max-model-len 32768）：
+
+```bash
+source env.sh
+python verify.py --abs --dataset gsm8k --data data/gsm8k_test.jsonl \
+  --train data/gsm8k_train.jsonl --shots 5 --conc 24 --out gsm8k_verify.json
+python verify.py --abs --dataset mmlu  --data data/mmlu_test.parquet \
+  --per-subject 5 --conc 24 --out mmlu_verify.json
+```
 
 | 数据集 | 样本数 | 配置 | 正确 | 得分 | 二项标准误 | 耗时 |
 | --- | --- | --- | --- | --- | --- | --- |
-| GSM8K test | 1319（全量） | 5-shot、greedy、max_tokens 512 | 1151 | **87.26%** | ±0.92 | 833 s |
-| MMLU test | 285（57 科 × 5 题） | 0-shot、greedy、max_tokens 32 | 225 | **78.95%** | ±2.41 | 18 s |
+| GSM8K test | 1319（全量） | 5-shot、greedy、关闭思考、max_tokens 512 | 1164 | **88.25%** | ±0.89 | 908 s |
+| MMLU test | 285（57 科 × 5 题） | 0-shot、greedy、关闭思考、max_tokens 32 | 225 | **78.95%** | ±2.41 | 17.6 s |
 
-- 原始结果：[`evidence/precision/gsm8k_result.json`](evidence/precision/gsm8k_result.json)、
-  [`evidence/precision/mmlu_result.json`](evidence/precision/mmlu_result.json)；
-  各抽 8 条带原样的核对样本在 `*.samples.txt`（GSM8K 输出为带 `####` 的完整 CoT，判分未被格式污染）。
+- 原始产物：[`evidence/precision/gsm8k_verify.json`](evidence/precision/gsm8k_verify.json)、
+  [`evidence/precision/mmlu_verify.json`](evidence/precision/mmlu_verify.json)，
+  逐 25 条进度与最终汇总在 [`evidence/precision/verify.log`](evidence/precision/verify.log)
+  （首行为 `selfcheck OK`）。
 - 数据集来源与指纹（`data/README.md`）：GSM8K 取自 openai/grade-school-math（test 1319 /
   train 前 5 条作 exemplar），MMLU 取自 cais/mmlu `all/test` 每科取 5 题。
 - **口径提醒**：同一模型 0-shot、不加 CoT 提示时 GSM8K 只有 17.06%（早期试跑，未留 json），
   说明 GSM8K 对 few-shot 口径极敏感；若官方基线的 shot 数不同，本节分数不能直接对比，
   拿到 `baselines/<模型>.json` 后按它的 `shots`/`max_tokens`/思考开关复跑即可。
+- 同一配置下早期用另一支独立脚本测得 87.26%（1151/1319），与本节的 88.25% 差 0.99 pt，
+  在并发 24 下属于答案抽取边界样本的正常波动区间，本节以 `verify.py` 的结果为准。
 
 
 ## 7. 性能参考

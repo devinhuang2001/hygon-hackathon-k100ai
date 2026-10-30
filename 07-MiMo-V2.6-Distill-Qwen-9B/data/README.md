@@ -1,7 +1,7 @@
 # 评测数据（未随仓库分发，给出出处与指纹）
 
 官方 `data/` 子集未下发；本节用的是**公开数据集**，按下面的 URL 下载即可复现，不需要向赛事方索取。
-文件较大（合计 ~8.4 MB），不放进仓库，下载后放到本目录，文件名保持一致即可直接跑 `precision.py`。
+文件较大（合计 ~8.4 MB），不放进仓库，下载后放到本目录，文件名保持一致即可直接跑 `verify.py --abs`。
 
 | 文件 | 来源 | 大小 | SHA-256 |
 | --- | --- | --- | --- |
@@ -18,12 +18,12 @@ curl -sL -o mmlu_test.parquet https://hf-mirror.com/datasets/cais/mmlu/resolve/m
 sha256sum gsm8k_test.jsonl gsm8k_train.jsonl mmlu_test.parquet   # 应与上表一致
 ```
 
-跑之前把这三个文件和 `precision.py` 放在同一目录（或用 `--data` 指路径）：
+跑之前把这三个文件放在本目录（或用 `--data` 指路径），并用仓库根的 `verify.py`：
 
 ```bash
 source env.sh
-python3 precision.py --dataset gsm8k --data data/gsm8k_test.jsonl  --train data/gsm8k_train.jsonl --shots 5 --conc 24 --out gsm8k_result.json
-python3 precision.py --dataset mmlu  --data data/mmlu_test.parquet --per-subject 5 --conc 24 --out mmlu_result.json
+python3 verify.py --abs --dataset gsm8k --data data/gsm8k_test.jsonl  --train data/gsm8k_train.jsonl --shots 5 --conc 24 --out gsm8k_verify.json
+python3 verify.py --abs --dataset mmlu  --data data/mmlu_test.parquet --per-subject 5 --conc 24 --out mmlu_verify.json
 ```
 
 > 说明：本实例（SCNet Notebook）无外网，上述数据是在本地下载后用 `tar | ssh` 传到
