@@ -1,0 +1,125 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8">
+<title>README</title><style>
+:root { color-scheme: light; }
+* { box-sizing: border-box; }
+body {
+  font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+  font-size: 10.5pt; line-height: 1.65; color: #1f2328; margin: 0;
+  padding: 0 2mm;
+}
+h1 { font-size: 19pt; border-bottom: 2px solid #1f6feb; padding-bottom: 6px; margin: 0 0 14px; color: #0b3d91; }
+h2 { font-size: 13.5pt; margin: 20px 0 8px; padding-left: 8px; border-left: 4px solid #1f6feb; color: #0b3d91; }
+h3 { font-size: 11.5pt; margin: 14px 0 6px; color: #24292f; }
+p { margin: 6px 0; }
+ul, ol { margin: 6px 0 6px 20px; padding: 0; }
+li { margin: 2px 0; }
+code { font-family: Consolas, "Cascadia Mono", monospace; font-size: 9pt;
+  background: #f2f4f7; padding: 1px 4px; border-radius: 3px; color: #b02a37; }
+pre.code { background: #f6f8fa; border: 1px solid #e3e6ea; border-radius: 4px;
+  padding: 8px 10px; overflow: visible; white-space: pre-wrap; word-break: break-all; }
+pre.code code { background: none; padding: 0; color: #1f2328; font-size: 8.6pt; line-height: 1.45; }
+table { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 9pt; }
+th, td { border: 1px solid #d6dae0; padding: 4px 6px; text-align: left; vertical-align: top; }
+th { background: #eef3fb; font-weight: 600; }
+tr:nth-child(even) td { background: #fafbfc; }
+blockquote { margin: 8px 0; padding: 6px 10px; background: #fff8e6;
+  border-left: 3px solid #e0a800; color: #4d3c00; }
+a { color: #0b57d0; text-decoration: none; word-break: break-all; }
+hr { border: none; border-top: 1px solid #e3e6ea; margin: 14px 0; }
+thead { display: table-header-group; }
+tr, pre, h2, h3 { break-inside: avoid; }
+</style></head><body><h1>OpenBMB/Trident-Qwen3VL-2B on 异构加速卡 BW + SGLang 0.5.18</h1>
+<blockquote>赛题：T02 视觉多模态理解模型（VL / VLA）SGLang / vLLM 适配 · 嵌入模型 计件粒度：<code>Trident-Qwen3VL-2B × 异构加速卡 BW × SGLang</code> 实测日期：2026-11-22　实例：SCNet Notebook <code>2124058310624530433</code></blockquote>
+<h2>1. 简介</h2>
+<p>Trident-Qwen3VL-2B 是 OpenBMB 的<strong>混合模态检索嵌入模型</strong>：把文本、图像、以及“图像+文本”融合内容映射到同一向量空间，一条文本 query 可以对纯文本、纯图片、图文三类文档统一排序。权重由 <code>Qwen/Qwen3-VL-2B-Instruct</code> 微调（LoRA 已合并），2.13B 参数、BF16、4.0 GB，单卡即可部署。</p>
+<ul><li>权重：<code>openbmb/Trident-Qwen3VL-2B</code>（16 个文件 / 4.0 GB，含官方 <code>trident_embedder.py</code>）</li><li>输出：<strong>2048 维、L2 归一化</strong>向量；query 与 doc 使用<strong>不同 instruction</strong>；<code>mmemb_model.json</code> 指定 <code>pooling=last_token</code>、<code>normalize=true</code>、<code>add_generation_prompt=true</code></li><li>验收口径（T02）：跑通「图文输入 → 向量输出（embedding 接口）」，用公示检索子集的检索指标；<strong>本件免性能要求</strong></li></ul>
+<p><strong>参考文档</strong></p>
+<ul><li>模型卡与权重：https://huggingface.co/openbmb/Trident-Qwen3VL-2B</li><li>官方代码：https://github.com/OpenBMB/Trident</li><li>sglang 文档：https://docs.sglang.io/</li><li>海光镜像清单：https://github.com/HYGON-AI/inference-cookbook-das/blob/main/docs/model-deployment/docker_images.md</li></ul>
+<p><strong>提交仓库（光合开发者社区，评审以此仓为准）</strong>：https://developer.sourcefind.cn/codes/g_x8d7w4tr/Trident-Qwen3VL-2B-BW （镜像：https://github.com/devinhuang2001/hygon-hackathon-k100ai/tree/main/11-Trident-Qwen3VL-2B）</p>
+<p><strong>一键复现</strong></p>
+<pre class="code" data-lang="bash"><code>git clone https://developer.sourcefind.cn/codes/g_x8d7w4tr/Trident-Qwen3VL-2B-BW.git
+cd Trident-Qwen3VL-2B-BW
+bash run.sh                      # 起服务（内含 DTK/头文件/多模态全部参数）
+python3 smoke.py                 # 三种输入形态
+python3 diag_mm_input.py         # 图像是否真进模型（三组余弦）
+python3 ref_text_match.py        # 文本与官方实现的一致性
+python3 eval_ndcg.py --backend ref      # 官方 embedder 基线
+python3 eval_ndcg.py --backend sglang   # 本件</code></pre>
+<h2>2. 验证环境</h2>
+<table><thead><tr><th>项</th><th>值</th></tr></thead><tbody><tr><td>主机</td><td>128 核 / 503 GB 内存 / overlay 1.8 T</td></tr><tr><td>加速卡</td><td><strong>BW × 1，64.0 GiB，<code>gfx936</code></strong>（<code>hy-smi --showproductname</code> → <code>Card Series: BW</code>），PwrCap 1000 W</td></tr><tr><td>DTK</td><td>26.04（镜像内用户态），HIP 6.3.26113</td></tr><tr><td>开发镜像</td><td><code>harbor.sourcefind.cn:5443/hcu/admin/base/sglang:0.5.18-ubuntu22.04-dtk26041-py3.10</code>，manifest <code>sha256:73656c45c1b6301ad459056a6e5d520d26039abe5364116f4a9c3a59da3ceae6</code></td></tr><tr><td>运行方式</td><td>Notebook 无 Docker：<code>skopeo</code> 拉 OCI + <code>umoci unpack</code>，用<strong>宿主 <code>/usr/bin/python3.10</code></strong> 加载镜像内 dist-packages 与 DTK 用户态</td></tr><tr><td>软件版本</td><td>torch 2.11.0（DTK 版）、sglang 0.5.18、transformers 5.17.0</td></tr><tr><td>精度</td><td>BF16，未量化；权重未改动</td></tr><tr><td>服务映射</td><td><code>127.0.0.1:19100</code>（Notebook 内回环，未外发端口）</td></tr></tbody></table>
+<p>服务端启动关键日志（原始输出见 <code>evidence/server3.log</code>）：</p>
+<pre class="code" data-lang="text"><code>server_args=... is_embedding=True, enable_multimodal=True,
+    json_model_override_args='{"architectures": ["Qwen3VLForConditionalGeneration"]}', dtype='bfloat16'
+Multimodal data loading enabled with 16 worker threads (auto).
+Load weight end. elapsed=11.76 s, type=Qwen3VLForConditionalGeneration,
+    avail mem=58.38 GB, mem usage=4.18 GB.
+max_total_num_tokens=136885, max_running_requests=2048, context_len=262144,
+    available_gpu_mem=41.67 GB
+The server is fired up and ready to roll!</code></pre>
+<h2>3. 适配优化方案</h2>
+<h3>3.1 基础镜像</h3>
+<p>用赛事指定的 sglang 0.5.18 镜像。Notebook 无 Docker，故 <code>skopeo copy</code> 到 OCI layout、<code>umoci unpack</code> 解包，再用宿主 python 加载镜像内的 dist-packages 与 DTK 用户态：<code>ROCM_PATH</code> 指向镜像 <code>opt/dtk</code>，<code>LD_LIBRARY_PATH</code> 额外加镜像的 <code>.hyhal/rocm_smi/lib</code> 与宿主 <code>/opt/hyhal/lib</code>（否则 <code>librocm_smi64.so.2</code> 找不到）。</p>
+<h3>3.2 软件包升级</h3>
+<p><strong>无。</strong> 未安装任何额外 pip 包，全部使用镜像自带版本（torch 2.11.0 / sglang 0.5.18 / transformers 5.17.0）。</p>
+<h3>3.3 代码改动</h3>
+<p>不改权重、不改 tokenizer、不改采样语义。以下四处都在<strong>启动参数与运行环境</strong>层面：</p>
+<p><strong>(1) 架构名覆盖。</strong> 权重 <code>config.json</code> 声明 <code>architectures: ["Qwen3VLForEmbedding"]</code>，该类只存在于仓库自带的 <code>trident_embedder.py</code>，transformers 与 sglang 均未注册，<code>--is-embedding</code> 会在 <code>get_mm_processor_cls</code> 阶段直接抛 <code>ValueError</code>。用启动参数把它指到 sglang 已实现的 <code>qwen3_vl.py</code>：</p>
+<pre class="code" data-lang="bash"><code>--json-model-override-args '{"architectures": ["Qwen3VLForConditionalGeneration"]}'</code></pre>
+<p>sglang 的 <code>qwen3_vl.py</code> 内部即 <code>Pooler(pooling_type=PoolingType.LAST, normalize=True)</code>，与权重 <code>mmemb_model.json</code> 的 <code>last_token + normalize</code> 一致 —— 这是该路线成立的前提。</p>
+<p><strong>(2) 宿主缺 Python 头文件。</strong> Triton 现场编译 <code>hip_utils.c</code> 需要 <code>Python.h</code>，缺失时 Scheduler 抛 <code>CalledProcessError</code> 并崩服。把镜像头文件挂进 include 路径即可（不装包）：</p>
+<pre class="code" data-lang="bash"><code>C_INCLUDE_PATH=$ROOTS/usr/include/python3.10:$HEADERS
+CPLUS_INCLUDE_PATH=$C_INCLUDE_PATH     # $HEADERS/x86_64-linux-gnu/python3.10 -&gt; 镜像同名目录</code></pre>
+<p><strong>(3) 图像输入必须用 sglang 自己的形态。</strong> <code>/v1/embeddings</code> 若用 OpenAI messages（<code>role</code>/<code>content</code>/<code>image_url</code>），<strong>不报错但静默丢图</strong>：带图与不带图余弦 0.999945、两张不同图 0.999976。必须写成 <code>MultimodalEmbeddingInput</code>：</p>
+<pre class="code" data-lang="json"><code>{"model": "trident-qwen3vl-2b", "input": [{"text": "&lt;doc instruction&gt;", "image": "data:image/png;base64,..."}]}</code></pre>
+<p>改对之后：带图 vs 不带图 0.644、两张不同图 0.692、同输入重复 0.99996（<code>diag_mm_input.py</code>）。另外必须显式加 <code>--enable-multimodal</code>（默认未开）。</p>
+<p><strong>(4) 文本输入要走官方 chat 模板。</strong> 官方 prompt 配置是 <code>use_system_role=true</code> + <code>add_generation_prompt=true</code>，池化取 assistant 前缀之后的位置；sglang 的 messages 输入不补该前缀，同一句话只能到 0.782 余弦。<strong>先用官方 tokenizer 渲染成字符串再送 <code>input:"&lt;string&gt;"</code>，余弦 0.999901</strong>（<code>ref_text_match.py</code>）。</p>
+<h3>3.4 升级步骤</h3>
+<pre class="code" data-lang="bash"><code>mkdir -p /root/hygon/{trident/evidence,models,bundle,oci}
+skopeo copy --retry-times 3 \
+  docker://harbor.sourcefind.cn:5443/hcu/admin/base/sglang:0.5.18-ubuntu22.04-dtk26041-py3.10 \
+  oci:/root/hygon/oci/sglang:0.5.18
+apt-get install -y umoci
+umoci unpack --rootless --image /root/hygon/oci/sglang:0.5.18 /root/hygon/bundle/sglang
+HF_ENDPOINT=https://hf-mirror.com hf download openbmb/Trident-Qwen3VL-2B \
+  --local-dir /root/hygon/models/Trident-Qwen3VL-2B
+bash /root/hygon/trident/run.sh</code></pre>
+<h2>4. 服务启动脚本</h2>
+<p><code>run.sh</code> 全文（光合仓根目录 <code>run.sh</code>；GitHub 镜像在 <code>11-Trident-Qwen3VL-2B/kit/run.sh</code>；实例上为 <code>/root/hygon/trident/run.sh</code>）：</p>
+<pre class="code" data-lang="bash"><code>R=/root/hygon/bundle/sglang/rootfs
+export ROCM_PATH=$R/opt/dtk; export DTKROOT=$ROCM_PATH; export HIP_PATH=$ROCM_PATH/hip
+export PATH=$ROCM_PATH/bin:$ROCM_PATH/llvm/bin:$ROCM_PATH/hip/bin:/opt/hyhal/bin:$PATH
+export LD_LIBRARY_PATH=$ROCM_PATH/lib:$ROCM_PATH/lib64:$ROCM_PATH/hip/lib:$R/opt/dtk/.hyhal/rocm_smi/lib:/opt/hyhal/lib:/opt/hyhal/lib64
+export PYTHONPATH=$R/usr/local/lib/python3.10/dist-packages:$R/usr/lib/python3/dist-packages
+PH=/root/hygon/trident/python-headers
+mkdir -p "$PH/x86_64-linux-gnu"
+ln -sfnT "$R/usr/include/x86_64-linux-gnu/python3.10" "$PH/x86_64-linux-gnu/python3.10"
+export C_INCLUDE_PATH="$R/usr/include/python3.10:$PH"
+export CPLUS_INCLUDE_PATH="$C_INCLUDE_PATH"
+exec /usr/bin/python3.10 -m sglang.launch_server \
+  --model-path /root/hygon/models/Trident-Qwen3VL-2B \
+  --served-model-name trident-qwen3vl-2b \
+  --is-embedding --enable-multimodal \
+  --json-model-override-args '{"architectures": ["Qwen3VLForConditionalGeneration"]}' \
+  --host 127.0.0.1 --port 19100 --trust-remote-code --dtype bfloat16 \
+  --attention-backend triton --disable-cuda-graph --mem-fraction-static 0.30</code></pre>
+<h2>5. Smoke 测试</h2>
+<p><code>smoke.py</code> 三种输入形态（2048 维、L2≈1）：</p>
+<table><thead><tr><th>测试</th><th>输入</th><th>返回</th></tr></thead><tbody><tr><td>纯文本 query</td><td>文本</td><td>2048 维，L2 0.9984</td></tr><tr><td>单图 doc</td><td>ChartQA 图 PNG（data URI）</td><td>2048 维，L2 0.9982</td></tr><tr><td>图文融合 doc</td><td>图 + 文本</td><td>2048 维，L2 0.9986</td></tr></tbody></table>
+<p>图像是否真的进入模型（<code>diag_mm_input.py</code>，同一 instruction）：</p>
+<table><thead><tr><th>比较</th><th>余弦</th></tr></thead><tbody><tr><td>带图 vs 不带图</td><td>0.6440</td></tr><tr><td>两张不同图</td><td>0.6918</td></tr><tr><td>同一输入重复两次</td><td>0.99996</td></tr></tbody></table>
+<p>文本路径与官方 <code>TridentEmbedder</code> 的逐条一致性：</p>
+<table><thead><tr><th>喂法</th><th>余弦 vs 官方</th></tr></thead><tbody><tr><td>chat 模板渲染 + assistant 前缀</td><td><strong>0.999901</strong></td></tr><tr><td>无 assistant 前缀</td><td>0.782344</td></tr><tr><td>丢 system instruction</td><td>0.925447</td></tr><tr><td>裸文本</td><td>−0.018035</td></tr></tbody></table>
+<h2>6. 精度测评</h2>
+<h3>6.1 数据集与口径</h3>
+<p>用模型作者公开的 <strong><code>OpenBMB/Trident-Eval</code></strong> 的 <strong>ChartQA 子集（Origin 设定）</strong>：1509 篇图像文档 × 1250 条文本 query，每 query 一个相关文档。指标 NDCG@10（IDCG=1，相关文档排名 r 得 <code>1/log2(r+2)</code>）与 Recall@{1,5,10}。两种后端跑<strong>同一份数据、同一套 instruction、同一套模板</strong>：</p>
+<table><thead><tr><th>后端</th><th>NDCG@10</th><th>Recall@1</th><th>Recall@5</th><th>Recall@10</th></tr></thead><tbody><tr><td>官方 <code>TridentEmbedder</code>（transformers，<strong>GPU 参考基线</strong>）</td><td>69.49</td><td>52.48</td><td>78.00</td><td>87.52</td></tr><tr><td><strong>本件 SGLang <code>/v1/embeddings</code>（BW）</strong></td><td><strong>70.30</strong></td><td><strong>54.08</strong></td><td><strong>79.52</strong></td><td><strong>87.68</strong></td></tr><tr><td>相对基线</td><td><strong>+1.17%</strong></td><td>+1.60</td><td>+1.52</td><td>+0.16</td></tr></tbody></table>
+<p>结论：<strong>较官方实现没有劣化</strong>（验收要求劣化 ≤2%，此处 +1.17%，属正常波动；差异来自 doc 侧 chat 模板渲染细节，不是权重或数值精度问题）。</p>
+<p>原始证据：<code>evidence/eval_chartqa_ref.json</code>、<code>evidence/eval_chartqa_sglang.json</code>；逐条向量由 <code>eval_ndcg.py</code> 在 <code>evidence/emb_chartqa_&lt;backend&gt;.npz</code> 落盘（1509×2048 文档 + 1250×2048 query，运行时重建）。</p>
+<h3>6.2 官方材料说明与未完成项</h3>
+<ul><li><strong>赛事自带的检索子集未下发</strong>：官方「分题材料」表只写 T02 会提供「检索子集 + 评测脚本 + 官方基线文件」，没有附下载入口，赛事文档正文也搜不到。因此本报告用模型作者公开、可匿名复现的 Trident-Eval 作为「公示」数据，并把<strong>官方实现本身当基线</strong>做同口径对比；官方子集到手后换数据目录重跑 <code>eval_ndcg.py</code> 即可。</li><li><strong>只测了 1 个视觉文档子集</strong>：其余（DocVQA 1.1 GB、InfoVQA 1.1 GB、Dude 9.4 GB、Google_WIT 2.4 GB 等）未跑。模型卡上「视觉文档 6 集合 Origin 平均 78.28」是六集合平均，不能与单集合 69.49 直接比较，故不引用为基线。</li><li><strong>Mix 设定未测</strong>：<code>mix_corpus.jsonl</code>（图文融合文档）已在数据中，本次只跑 Origin（纯图文档）。</li></ul>
+<h2>7. 性能参考</h2>
+<p>单条请求（batch=1，含 HTTP 往返；卡上同时有他人的 ComfyUI 在跑，显存上限压到 0.30）：</p>
+<table><thead><tr><th>场景</th><th>次数</th><th>中位延迟</th><th>最小 / 最大</th></tr></thead><tbody><tr><td>纯文本（每次新 prompt）</td><td>5</td><td><strong>38 ms</strong></td><td>38 / 43 ms</td></tr><tr><td>纯文本（同输入重复）</td><td>5</td><td>35 ms</td><td>35 / 38 ms</td></tr><tr><td>单图 doc（每次新 prompt）</td><td>5</td><td><strong>168 ms</strong></td><td>119 / 193 ms</td></tr><tr><td>单图 doc（同输入重复）</td><td>5</td><td>149 ms</td><td>118 / 200 ms</td></tr></tbody></table>
+<p>本件<strong>免性能要求</strong>，以上仅作环境标定：未做并发压测，也未与官方 GPU 基线做性能对比。权重加载 11.76 s、常驻 4.18 GB，起服到 ready 约 65 s。</p>
+<h2>8. 注意事项</h2>
+<ol><li><strong>图像输入形态是本件最大的坑</strong>：用 OpenAI messages 写法不会报错，但图像被静默丢弃（余弦 0.99995），检索指标会直接崩到 NDCG 0.49。必须用 <code>{"text","image"}</code> 且开 <code>--enable-multimodal</code>。</li><li><strong>必须覆盖 architectures</strong>：不改 config 直接 <code>--is-embedding</code> 会因 <code>Qwen3VLForEmbedding</code> 未注册而拒绝启动。</li><li><strong>宿主需要 Python 头文件</strong>：否则 Triton 编译 <code>hip_utils.c</code> 失败、Scheduler 崩服，且日志里要翻到 <code>CalledProcessError</code> 才能定位。</li><li><strong>同卡共存</strong>：实例上长期有他人的 ComfyUI（<code>:8188</code>），本服务把 <code>--mem-fraction-static</code> 压到 0.30，全程未干预对方；满负载吞吐未测。</li><li><strong>可复现边界</strong>：69.49 / 70.30 均在本机 BW 上实测，脚本、日志、向量齐全；换机后若 chat 模板版本不同，需按 <code>ref_text_match.py</code> 重新对齐 assistant 前缀。</li></ol></body></html>

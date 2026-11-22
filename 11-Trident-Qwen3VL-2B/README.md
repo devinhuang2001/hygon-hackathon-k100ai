@@ -19,11 +19,14 @@ Trident-Qwen3VL-2B 是 OpenBMB 的**混合模态检索嵌入模型**：把文本
 - sglang 文档：https://docs.sglang.io/
 - 海光镜像清单：https://github.com/HYGON-AI/inference-cookbook-das/blob/main/docs/model-deployment/docker_images.md
 
+**提交仓库（光合开发者社区，评审以此仓为准）**：https://developer.sourcefind.cn/codes/g_x8d7w4tr/Trident-Qwen3VL-2B-BW
+（镜像：https://github.com/devinhuang2001/hygon-hackathon-k100ai/tree/main/11-Trident-Qwen3VL-2B）
+
 **一键复现**
 
 ```bash
-git clone https://github.com/devinhuang2001/hygon-hackathon-k100ai
-cd hygon-hackathon-k100ai/11-Trident-Qwen3VL-2B
+git clone https://developer.sourcefind.cn/codes/g_x8d7w4tr/Trident-Qwen3VL-2B-BW.git
+cd Trident-Qwen3VL-2B-BW
 bash run.sh                      # 起服务（内含 DTK/头文件/多模态全部参数）
 python3 smoke.py                 # 三种输入形态
 python3 diag_mm_input.py         # 图像是否真进模型（三组余弦）
@@ -113,7 +116,7 @@ bash /root/hygon/trident/run.sh
 
 ## 4. 服务启动脚本
 
-`run.sh` 全文（仓库内 `11-Trident-Qwen3VL-2B/run.sh`，实例上为 `/root/hygon/trident/run.sh`）：
+`run.sh` 全文（光合仓根目录 `run.sh`；GitHub 镜像在 `11-Trident-Qwen3VL-2B/kit/run.sh`；实例上为 `/root/hygon/trident/run.sh`）：
 
 ```bash
 R=/root/hygon/bundle/sglang/rootfs
