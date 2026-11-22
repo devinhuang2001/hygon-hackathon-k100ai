@@ -1,0 +1,29 @@
+{
+ "image": "/root/hygon/a2wan/data/vbench_i2v/crop/16-9/A black and white abstract video featuring mesmerizing bubbles.jpg",
+ "rows": [
+  {
+   "case": "image_only",
+   "variant": "no_assistant",
+   "latency_s": 2.48,
+   "cos_vs_ref": 0.783841
+  },
+  {
+   "case": "image_only",
+   "variant": "with_assistant",
+   "latency_s": 4.156,
+   "cos_vs_ref": 0.783841
+  },
+  {
+   "case": "image_text",
+   "variant": "no_assistant",
+   "latency_s": 2.488,
+   "cos_vs_ref": 0.757708
+  },
+  {
+   "case": "image_text",
+   "variant": "with_assistant",
+   "latency_s": 4.704,
+   "cos_vs_ref": 0.757708
+  }
+ ]
+}

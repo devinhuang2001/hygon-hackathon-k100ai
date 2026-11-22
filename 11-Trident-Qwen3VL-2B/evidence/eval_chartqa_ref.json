@@ -1,0 +1,11 @@
+{
+ "backend": "ref",
+ "dataset": "ChartQA/Origin",
+ "docs": 1509,
+ "queries": 1250,
+ "ndcg@10": 69.49,
+ "recall@1": 52.48,
+ "recall@5": 78.0,
+ "recall@10": 87.52,
+ "seconds": 2125.4
+}

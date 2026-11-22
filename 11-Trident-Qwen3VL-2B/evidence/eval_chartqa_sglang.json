@@ -1,0 +1,11 @@
+{
+ "backend": "sglang",
+ "dataset": "ChartQA/Origin",
+ "docs": 1509,
+ "queries": 1250,
+ "ndcg@10": 70.3,
+ "recall@1": 54.08,
+ "recall@5": 79.52,
+ "recall@10": 87.68,
+ "seconds": 248.3
+}

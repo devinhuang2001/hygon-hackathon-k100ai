@@ -1,0 +1,43 @@
+{
+ "query": {
+  "item": "query",
+  "latency_s": 4.413,
+  "error": null,
+  "cos_vs_ref": 0.775827,
+  "dim": 2048
+ },
+ "docs": [
+  {
+   "item": "doc0",
+   "latency_s": 4.423,
+   "error": null,
+   "cos_vs_ref": 0.732438,
+   "dim": 2048
+  },
+  {
+   "item": "doc1",
+   "latency_s": 2.217,
+   "error": null,
+   "cos_vs_ref": 0.783841,
+   "dim": 2048
+  },
+  {
+   "item": "doc2",
+   "latency_s": 4.142,
+   "error": null,
+   "cos_vs_ref": 0.758113,
+   "dim": 2048
+  }
+ ],
+ "ref_scores": [
+  0.6078375710802412,
+  0.7914859535902194,
+  0.7663267406816651
+ ],
+ "ref_rank": [
+  1,
+  2,
+  0
+ ],
+ "note": "cos_vs_ref 是 sglang 向量与官方 embedder 向量的余弦；接近 1 表示同一份权重在同一输入上给出一致表示"
+}

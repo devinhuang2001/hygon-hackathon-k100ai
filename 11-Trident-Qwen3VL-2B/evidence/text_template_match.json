@@ -1,0 +1,33 @@
+{
+ "instruction": "Represent the query for retrieving relevant content.",
+ "rows": [
+  {
+   "variant": "sys+gen",
+   "chars": 178,
+   "latency_s": 2.23,
+   "cos_vs_ref": 0.999901,
+   "prompt_head": "<|im_start|>system Represent the query for retrieving releva"
+  },
+  {
+   "variant": "sys",
+   "chars": 156,
+   "latency_s": 2.205,
+   "cos_vs_ref": 0.782344,
+   "prompt_head": "<|im_start|>system Represent the query for retrieving releva"
+  },
+  {
+   "variant": "nosys+gen",
+   "chars": 96,
+   "latency_s": 2.215,
+   "cos_vs_ref": 0.925447,
+   "prompt_head": "<|im_start|>user abstract fluid texture flowing in warm colo"
+  },
+  {
+   "variant": "raw",
+   "chars": 46,
+   "latency_s": 2.217,
+   "cos_vs_ref": -0.018035,
+   "prompt_head": "abstract fluid texture flowing in warm colours"
+  }
+ ]
+}
