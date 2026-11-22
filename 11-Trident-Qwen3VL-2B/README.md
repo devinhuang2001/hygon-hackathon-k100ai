@@ -2,7 +2,7 @@
 
 > 赛题：T02 视觉多模态理解模型（VL / VLA）SGLang / vLLM 适配 · 嵌入模型
 > 计件粒度：`Trident-Qwen3VL-2B × 异构加速卡 BW × SGLang`
-> 实测日期：2026-11-22　实例：SCNet Notebook `2124058310624530433`
+> 实测日期：2026-11-22　平台：SCNet 超算互联网 Notebook（异构加速卡 BW × 1）
 
 ## 1. 简介
 
@@ -189,7 +189,7 @@ exec /usr/bin/python3.10 -m sglang.launch_server \
 
 ## 7. 性能参考
 
-单条请求（batch=1，含 HTTP 往返；卡上同时有他人的 ComfyUI 在跑，显存上限压到 0.30）：
+单条请求（batch=1，含 HTTP 往返；同机另有其他负载，本服务显存上限压到 0.30）：
 
 | 场景 | 次数 | 中位延迟 | 最小 / 最大 |
 |---|---:|---:|---:|
@@ -205,5 +205,5 @@ exec /usr/bin/python3.10 -m sglang.launch_server \
 1. **图像输入形态是本件最大的坑**：用 OpenAI messages 写法不会报错，但图像被静默丢弃（余弦 0.99995），检索指标会直接崩到 NDCG 0.49。必须用 `{"text","image"}` 且开 `--enable-multimodal`。
 2. **必须覆盖 architectures**：不改 config 直接 `--is-embedding` 会因 `Qwen3VLForEmbedding` 未注册而拒绝启动。
 3. **宿主需要 Python 头文件**：否则 Triton 编译 `hip_utils.c` 失败、Scheduler 崩服，且日志里要翻到 `CalledProcessError` 才能定位。
-4. **同卡共存**：实例上长期有他人的 ComfyUI（`:8188`），本服务把 `--mem-fraction-static` 压到 0.30，全程未干预对方；满负载吞吐未测。
+4. **同卡共存**：实例上另有其他负载长期运行，本服务把 `--mem-fraction-static` 压到 0.30，未干预其他进程；满负载吞吐未测。
 5. **可复现边界**：69.49 / 70.30 均在本机 BW 上实测，脚本、日志、向量齐全；换机后若 chat 模板版本不同，需按 `ref_text_match.py` 重新对齐 assistant 前缀。
